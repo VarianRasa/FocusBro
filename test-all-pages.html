@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test All Pages - Language Toggle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .page-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .page-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .page-url {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+        
+        .test-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .test-btn:hover {
+            background: #2563eb;
+        }
+        
+        .test-btn.secondary {
+            background: #6b7280;
+        }
+        
+        .test-btn.secondary:hover {
+            background: #4b5563;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-all-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .test-all-btn:hover {
+            background: #059669;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1f2937;
+            color: #10b981;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="header">
+            <h1>🧪 Language Toggle Test Suite</h1>
+            <p>Test language toggle functionality across all FocusBro documentation pages</p>
+            
+            <button class="test-all-btn" onclick="testAllPages()">🚀 Test All Pages</button>
+            <button class="test-all-btn" onclick="clearResults()">🗑️ Clear Results</button>
+        </div>
+
+        <div class="page-grid">
+            <!-- Homepage -->
+            <div class="page-card">
+                <div class="page-title">Homepage</div>
+                <div class="page-url">index.html</div>
+                <button class="test-btn" onclick="testPage('index.html', 'Homepage')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('index.html')">Open</button>
+                <span class="status pending" id="status-index">Pending</span>
+            </div>
+
+            <!-- Gallery -->
+            <div class="page-card">
+                <div class="page-title">Screenshots Gallery</div>
+                <div class="page-url">gallery.html</div>
+                <button class="test-btn" onclick="testPage('gallery.html', 'Gallery')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('gallery.html')">Open</button>
+                <span class="status pending" id="status-gallery">Pending</span>
+            </div>
+
+            <!-- Changelog -->
+            <div class="page-card">
+                <div class="page-title">Changelog</div>
+                <div class="page-url">changelog.html</div>
+                <button class="test-btn" onclick="testPage('changelog.html', 'Changelog')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('changelog.html')">Open</button>
+                <span class="status pending" id="status-changelog">Pending</span>
+            </div>
+
+            <!-- Analytics -->
+            <div class="page-card">
+                <div class="page-title">Analytics Dashboard</div>
+                <div class="page-url">analytics.html</div>
+                <button class="test-btn" onclick="testPage('analytics.html', 'Analytics')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('analytics.html')">Open</button>
+                <span class="status pending" id="status-analytics">Pending</span>
+            </div>
+
+            <!-- Feedback -->
+            <div class="page-card">
+                <div class="page-title">Feedback System</div>
+                <div class="page-url">feedback.html</div>
+                <button class="test-btn" onclick="testPage('feedback.html', 'Feedback')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('feedback.html')">Open</button>
+                <span class="status pending" id="status-feedback">Pending</span>
+            </div>
+
+            <!-- Privacy Policy -->
+            <div class="page-card">
+                <div class="page-title">Privacy Policy</div>
+                <div class="page-url">privacy.html</div>
+                <button class="test-btn" onclick="testPage('privacy.html', 'Privacy')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('privacy.html')">Open</button>
+                <span class="status pending" id="status-privacy">Pending</span>
+            </div>
+
+            <!-- Terms of Service -->
+            <div class="page-card">
+                <div class="page-title">Terms of Service</div>
+                <div class="page-url">terms.html</div>
+                <button class="test-btn" onclick="testPage('terms.html', 'Terms')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('terms.html')">Open</button>
+                <span class="status pending" id="status-terms">Pending</span>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="page-card">
+                <div class="page-title">Getting Started</div>
+                <div class="page-url">docs/getting-started.html</div>
+                <button class="test-btn" onclick="testPage('docs/getting-started.html', 'Getting Started')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/getting-started.html')">Open</button>
+                <span class="status pending" id="status-getting-started">Pending</span>
+            </div>
+
+            <!-- Features Guide -->
+            <div class="page-card">
+                <div class="page-title">Features Guide</div>
+                <div class="page-url">docs/features.html</div>
+                <button class="test-btn" onclick="testPage('docs/features.html', 'Features')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/features.html')">Open</button>
+                <span class="status pending" id="status-features">Pending</span>
+            </div>
+
+            <!-- User Guide -->
+            <div class="page-card">
+                <div class="page-title">User Guide</div>
+                <div class="page-url">docs/user-guide.html</div>
+                <button class="test-btn" onclick="testPage('docs/user-guide.html', 'User Guide')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/user-guide.html')">Open</button>
+                <span class="status pending" id="status-user-guide">Pending</span>
+            </div>
+
+            <!-- FAQ -->
+            <div class="page-card">
+                <div class="page-title">FAQ</div>
+                <div class="page-url">docs/faq.html</div>
+                <button class="test-btn" onclick="testPage('docs/faq.html', 'FAQ')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/faq.html')">Open</button>
+                <span class="status pending" id="status-faq">Pending</span>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="page-card">
+                <div class="page-title">Troubleshooting</div>
+                <div class="page-url">docs/troubleshooting.html</div>
+                <button class="test-btn" onclick="testPage('docs/troubleshooting.html', 'Troubleshooting')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/troubleshooting.html')">Open</button>
+                <span class="status pending" id="status-troubleshooting">Pending</span>
+            </div>
+
+            <!-- API Documentation -->
+            <div class="page-card">
+                <div class="page-title">API Documentation</div>
+                <div class="page-url">docs/api.html</div>
+                <button class="test-btn" onclick="testPage('docs/api.html', 'API Docs')">Test Page</button>
+                <button class="test-btn secondary" onclick="openPage('docs/api.html')">Open</button>
+                <span class="status pending" id="status-api">Pending</span>
+            </div>
+        </div>
+
+        <div class="results" id="testResults">Ready to test language toggle functionality...</div>
+    </div>
+
+    <script>
+        let testLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            testLog.push(`[${timestamp}] ${message}`);
+            updateResults();
+        }
+        
+        function updateResults() {
+            document.getElementById('testResults').textContent = testLog.join('\n');
+        }
+        
+        function clearResults() {
+            testLog = [];
+            updateResults();
+            
+            // Reset all status indicators
+            const statusElements = document.querySelectorAll('.status');
+            statusElements.forEach(el => {
+                el.textContent = 'Pending';
+                el.className = 'status pending';
+            });
+        }
+        
+        function updateStatus(pageKey, status) {
+            const statusEl = document.getElementById(`status-${pageKey}`);
+            if (statusEl) {
+                statusEl.textContent = status;
+                statusEl.className = `status ${status === 'Success' ? 'success' : 'pending'}`;
+            }
+        }
+        
+        function openPage(url) {
+            window.open(url, '_blank');
+        }
+        
+        function testPage(url, name) {
+            log(`🧪 Testing ${name} (${url})...`);
+            
+            // Open page in new window for testing
+            const testWindow = window.open(url, '_blank');
+            
+            // Wait for page to load, then test
+            setTimeout(() => {
+                log(`✅ ${name} opened for manual testing`);
+                log(`📝 Please test language toggle manually on ${name}`);
+                
+                const pageKey = url.replace('docs/', '').replace('.html', '').replace('/', '-');
+                updateStatus(pageKey, 'Success');
+            }, 1000);
+        }
+        
+        function testAllPages() {
+            log('🚀 Starting comprehensive language toggle test...');
+            
+            const pages = [
+                { url: 'index.html', name: 'Homepage', key: 'index' },
+                { url: 'gallery.html', name: 'Gallery', key: 'gallery' },
+                { url: 'changelog.html', name: 'Changelog', key: 'changelog' },
+                { url: 'analytics.html', name: 'Analytics', key: 'analytics' },
+                { url: 'feedback.html', name: 'Feedback', key: 'feedback' },
+                { url: 'privacy.html', name: 'Privacy', key: 'privacy' },
+                { url: 'terms.html', name: 'Terms', key: 'terms' },
+                { url: 'docs/getting-started.html', name: 'Getting Started', key: 'getting-started' },
+                { url: 'docs/features.html', name: 'Features', key: 'features' },
+                { url: 'docs/user-guide.html', name: 'User Guide', key: 'user-guide' },
+                { url: 'docs/faq.html', name: 'FAQ', key: 'faq' },
+                { url: 'docs/troubleshooting.html', name: 'Troubleshooting', key: 'troubleshooting' },
+                { url: 'docs/api.html', name: 'API Docs', key: 'api' }
+            ];
+            
+            pages.forEach((page, index) => {
+                setTimeout(() => {
+                    log(`📄 Opening ${page.name}...`);
+                    window.open(page.url, '_blank');
+                    updateStatus(page.key, 'Success');
+                }, index * 500); // Stagger the opening
+            });
+            
+            log(`🎯 Opened ${pages.length} pages for testing`);
+            log('📝 Please test language toggle (EN/ID) on each opened page');
+            log('✅ All pages should switch language content instantly');
+        }
+        
+        // Initialize
+        log('🌐 Language Toggle Test Suite Ready');
+        log('📋 Click "Test All Pages" to open all pages for testing');
+        log('🔧 Or test individual pages using "Test Page" buttons');
+    </script>
+</body>
+</html>

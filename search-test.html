@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Test - FocusBro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1f2937;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+            height: 60px;
+        }
+        
+        .search-input-wrapper:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+        
+        .search-icon {
+            color: #9ca3af;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .search-input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            font-size: 16px;
+            color: #1f2937;
+        }
+        
+        .search-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .search-clear {
+            background: #e5e7eb;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+        }
+        
+        .search-clear:hover {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            margin-top: 8px;
+        }
+        
+        .search-suggestions.show {
+            display: block;
+        }
+        
+        .search-suggestion {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-suggestion:last-child {
+            border-bottom: none;
+        }
+        
+        .search-suggestion:hover {
+            background: linear-gradient(135deg, #6366f1, #10b981);
+            color: white;
+        }
+        
+        .search-suggestion-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #10b981);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .search-suggestion:hover .search-suggestion-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-suggestion-content {
+            flex: 1;
+        }
+        
+        .search-suggestion-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .search-suggestion:hover .search-suggestion-title {
+            color: white;
+        }
+        
+        .search-suggestion-description {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .search-suggestion:hover .search-suggestion-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .search-suggestion-category {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .search-suggestion:hover .search-suggestion-category {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #6366f1;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Search Test</h1>
+        
+        <div class="search-container" id="searchContainer">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="site-search" placeholder="Try searching for 'task', 'focus', 'pdf'..." class="search-input" autocomplete="off">
+                <button class="search-clear" id="searchClear">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+        
+        <div class="status" id="status">
+            Type something in the search box above to test the search functionality.
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Homepage
+            </a>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Test search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+            const searchInput = document.getElementById('site-search');
+            
+            status.innerHTML = '✅ Search test page loaded successfully!';
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const query = e.target.value;
+                    if (query) {
+                        status.innerHTML = `🔍 Searching for: "${query}"`;
+                    } else {
+                        status.innerHTML = '✅ Search test page loaded successfully!';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Screenshots Gallery - FocusBro" data-id="Galeri Screenshot - FocusBro">Screenshots Gallery - FocusBro</title>
+    <meta name="description" content="FocusBro app screenshots gallery. See all features in action with high-quality images and detailed explanations." data-en="FocusBro app screenshots gallery. See all features in action with high-quality images and detailed explanations." data-id="Galeri screenshot aplikasi FocusBro. Lihat semua fitur beraksi dengan gambar berkualitas tinggi dan penjelasan detail.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .gallery-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .gallery-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .gallery-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+        
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-8);
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--border-color);
+            padding: var(--spacing-3) var(--spacing-5);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-normal);
+            cursor: pointer;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .screenshot-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-normal);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        .screenshot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-large);
+        }
+        
+        .screenshot-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .screenshot-image::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 260px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .screenshot-image::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 240px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .screenshot-content {
+            padding: var(--spacing-5);
+        }
+        
+        .screenshot-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+            color: var(--text-primary);
+        }
+        
+        .screenshot-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .screenshot-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+        }
+        
+        .feature-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+        
+        .feature-tag.primary { background: var(--primary-color); color: white; }
+        .feature-tag.secondary { background: var(--secondary-color); color: white; }
+        .feature-tag.accent { background: var(--accent-color); color: white; }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-4);
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .lightbox-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+        }
+        
+        .lightbox-info {
+            padding: var(--spacing-6);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: var(--spacing-4);
+            right: var(--spacing-4);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-lg);
+            transition: var(--transition-fast);
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .category-section {
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .category-header {
+            text-align: center;
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .category-header h2 {
+            font-size: var(--font-size-3xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+            color: var(--text-primary);
+        }
+        
+        .category-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Content -->
+    <main class="gallery-main">
+        <div class="gallery-container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Home" data-id="Kembali ke Beranda">Back to Home</span>
+            </a>
+
+            <div class="gallery-header">
+                <h1 data-en="Screenshots Gallery" data-id="Galeri Screenshot">Screenshots Gallery</h1>
+                <p data-en="Explore FocusBro's features through high-quality screenshots and detailed explanations." data-id="Jelajahi fitur FocusBro melalui screenshot berkualitas tinggi dan penjelasan detail.">Explore FocusBro's features through high-quality screenshots and detailed explanations.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all" data-en="All Screenshots" data-id="Semua Screenshot">All Screenshots</button>
+                <button class="filter-btn" data-filter="tasks" data-en="Task Management" data-id="Manajemen Tugas">Task Management</button>
+                <button class="filter-btn" data-filter="focus" data-en="Focus Sessions" data-id="Sesi Fokus">Focus Sessions</button>
+                <button class="filter-btn" data-filter="notes" data-en="Smart Notes" data-id="Catatan Cerdas">Smart Notes</button>
+                <button class="filter-btn" data-filter="pdf" data-en="PDF Reader" data-id="Pembaca PDF">PDF Reader</button>
+                <button class="filter-btn" data-filter="settings" data-en="Settings" data-id="Pengaturan">Settings</button>
+            </div>
+
+            <!-- Task Management Screenshots -->
+            <div class="category-section" data-category="tasks">
+                <div class="category-header">
+                    <h2 data-en="Task Management" data-id="Manajemen Tugas">Task Management</h2>
+                    <p data-en="Organize and track your tasks with powerful management tools" data-id="Atur dan lacak tugas Anda dengan alat manajemen yang powerful">Organize and track your tasks with powerful management tools</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="screenshot-card" data-category="tasks">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                📋 Task Dashboard
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Enhanced Agenda Screen" data-id="Layar Agenda Ditingkatkan">Enhanced Agenda Screen</h3>
+                            <p class="screenshot-description" data-en="Main dashboard showing today's tasks with priority indicators, category icons, and quick action buttons." data-id="Dashboard utama yang menampilkan tugas hari ini dengan indikator prioritas, ikon kategori, dan tombol aksi cepat.">Main dashboard showing today's tasks with priority indicators, category icons, and quick action buttons.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Priority Levels" data-id="Level Prioritas">Priority Levels</span>
+                                <span class="feature-tag secondary" data-en="Categories" data-id="Kategori">Categories</span>
+                                <span class="feature-tag" data-en="Quick Actions" data-id="Aksi Cepat">Quick Actions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="tasks">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                ➕ Create Task
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Task Creation Dialog" data-id="Dialog Pembuatan Tugas">Task Creation Dialog</h3>
+                            <p class="screenshot-description" data-en="Comprehensive task creation with title, description, priority, category, and scheduling options." data-id="Pembuatan tugas komprehensif dengan judul, deskripsi, prioritas, kategori, dan opsi penjadwalan.">Comprehensive task creation with title, description, priority, category, and scheduling options.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Smart Scheduling" data-id="Penjadwalan Cerdas">Smart Scheduling</span>
+                                <span class="feature-tag" data-en="Form Validation" data-id="Validasi Form">Form Validation</span>
+                                <span class="feature-tag accent" data-en="Material Design" data-id="Material Design">Material Design</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="tasks">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                📊 Task Analytics
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Productivity Analytics" data-id="Analitik Produktivitas">Productivity Analytics</h3>
+                            <p class="screenshot-description" data-en="Detailed statistics showing task completion rates, productivity trends, and performance insights." data-id="Statistik detail yang menampilkan tingkat penyelesaian tugas, tren produktivitas, dan wawasan kinerja.">Detailed statistics showing task completion rates, productivity trends, and performance insights.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Charts & Graphs" data-id="Grafik & Diagram">Charts & Graphs</span>
+                                <span class="feature-tag secondary" data-en="Progress Tracking" data-id="Pelacakan Kemajuan">Progress Tracking</span>
+                                <span class="feature-tag" data-en="Export Reports" data-id="Ekspor Laporan">Export Reports</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Focus Sessions Screenshots -->
+            <div class="category-section" data-category="focus">
+                <div class="category-header">
+                    <h2 data-en="Focus Sessions" data-id="Sesi Fokus">Focus Sessions</h2>
+                    <p data-en="Boost productivity with customizable Pomodoro timers and focus modes" data-id="Tingkatkan produktivitas dengan timer Pomodoro yang dapat disesuaikan dan mode fokus">Boost productivity with customizable Pomodoro timers and focus modes</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="screenshot-card" data-category="focus">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                ⏱️ Focus Timer
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Enhanced Focus Screen" data-id="Layar Fokus Ditingkatkan">Enhanced Focus Screen</h3>
+                            <p class="screenshot-description" data-en="Beautiful timer interface with customizable durations, session presets, and real-time progress tracking." data-id="Antarmuka timer yang indah dengan durasi yang dapat disesuaikan, preset sesi, dan pelacakan kemajuan real-time.">Beautiful timer interface with customizable durations, session presets, and real-time progress tracking.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Custom Durations" data-id="Durasi Kustom">Custom Durations</span>
+                                <span class="feature-tag secondary" data-en="Session Presets" data-id="Preset Sesi">Session Presets</span>
+                                <span class="feature-tag accent" data-en="Visual Progress" data-id="Kemajuan Visual">Visual Progress</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="focus">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                🎵 Music Library
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Background Music & Sounds" data-id="Musik Latar & Suara">Background Music & Sounds</h3>
+                            <p class="screenshot-description" data-en="Extensive music library with ambient sounds, custom playlists, and volume controls for enhanced focus." data-id="Perpustakaan musik ekstensif dengan suara ambient, playlist kustom, dan kontrol volume untuk fokus yang ditingkatkan.">Extensive music library with ambient sounds, custom playlists, and volume controls for enhanced focus.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Ambient Sounds" data-id="Suara Ambient">Ambient Sounds</span>
+                                <span class="feature-tag secondary" data-en="Custom Playlists" data-id="Playlist Kustom">Custom Playlists</span>
+                                <span class="feature-tag" data-en="Volume Control" data-id="Kontrol Volume">Volume Control</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="focus">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                🔧 Focus Settings
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Focus Mode Configuration" data-id="Konfigurasi Mode Fokus">Focus Mode Configuration</h3>
+                            <p class="screenshot-description" data-en="Advanced settings for focus mode including brightness control, notification blocking, and session preferences." data-id="Pengaturan lanjutan untuk mode fokus termasuk kontrol kecerahan, pemblokiran notifikasi, dan preferensi sesi.">Advanced settings for focus mode including brightness control, notification blocking, and session preferences.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Brightness Control" data-id="Kontrol Kecerahan">Brightness Control</span>
+                                <span class="feature-tag secondary" data-en="Notification Block" data-id="Blokir Notifikasi">Notification Block</span>
+                                <span class="feature-tag accent" data-en="Auto Settings" data-id="Pengaturan Otomatis">Auto Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Notes Screenshots -->
+            <div class="category-section" data-category="notes">
+                <div class="category-header">
+                    <h2 data-en="Smart Notes" data-id="Catatan Cerdas">Smart Notes</h2>
+                    <p data-en="Capture and organize thoughts with advanced note-taking features" data-id="Tangkap dan atur pemikiran dengan fitur pencatatan yang canggih">Capture and organize thoughts with advanced note-taking features</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="screenshot-card" data-category="notes">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                📝 Notes List
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Enhanced Notes Screen" data-id="Layar Catatan Ditingkatkan">Enhanced Notes Screen</h3>
+                            <p class="screenshot-description" data-en="Organized notes view with pinned notes, tags, search functionality, and smart sorting options." data-id="Tampilan catatan terorganisir dengan catatan yang dipasang, tag, fungsi pencarian, dan opsi pengurutan cerdas.">Organized notes view with pinned notes, tags, search functionality, and smart sorting options.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Pin Notes" data-id="Pin Catatan">Pin Notes</span>
+                                <span class="feature-tag secondary" data-en="Tag System" data-id="Sistem Tag">Tag System</span>
+                                <span class="feature-tag" data-en="Advanced Search" data-id="Pencarian Lanjutan">Advanced Search</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="notes">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                ✏️ Note Editor
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Rich Text Editor" data-id="Editor Teks Kaya">Rich Text Editor</h3>
+                            <p class="screenshot-description" data-en="Powerful note editor with formatting options, auto-save, and seamless editing experience." data-id="Editor catatan yang powerful dengan opsi pemformatan, penyimpanan otomatis, dan pengalaman editing yang mulus.">Powerful note editor with formatting options, auto-save, and seamless editing experience.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Rich Text" data-id="Teks Kaya">Rich Text</span>
+                                <span class="feature-tag secondary" data-en="Auto-save" data-id="Simpan Otomatis">Auto-save</span>
+                                <span class="feature-tag accent" data-en="Formatting Tools" data-id="Alat Pemformatan">Formatting Tools</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Reader Screenshots -->
+            <div class="category-section" data-category="pdf">
+                <div class="category-header">
+                    <h2 data-en="PDF Reader" data-id="Pembaca PDF">PDF Reader</h2>
+                    <p data-en="Advanced PDF viewing and annotation capabilities" data-id="Kemampuan melihat dan anotasi PDF yang canggih">Advanced PDF viewing and annotation capabilities</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="screenshot-card" data-category="pdf">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                📄 PDF Viewer
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Enhanced PDF Reader" data-id="Pembaca PDF Ditingkatkan">Enhanced PDF Reader</h3>
+                            <p class="screenshot-description" data-en="High-quality PDF rendering with zoom controls, page navigation, and fullscreen reading mode." data-id="Rendering PDF berkualitas tinggi dengan kontrol zoom, navigasi halaman, dan mode baca layar penuh.">High-quality PDF rendering with zoom controls, page navigation, and fullscreen reading mode.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="High Quality" data-id="Kualitas Tinggi">High Quality</span>
+                                <span class="feature-tag secondary" data-en="Zoom & Pan" data-id="Zoom & Pan">Zoom & Pan</span>
+                                <span class="feature-tag accent" data-en="Fullscreen Mode" data-id="Mode Layar Penuh">Fullscreen Mode</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="pdf">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                🖍️ PDF Annotations
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Annotation Tools" data-id="Alat Anotasi">Annotation Tools</h3>
+                            <p class="screenshot-description" data-en="Comprehensive annotation toolkit with highlighting, text notes, drawing tools, and bookmarks." data-id="Toolkit anotasi komprehensif dengan highlighting, catatan teks, alat menggambar, dan bookmark.">Comprehensive annotation toolkit with highlighting, text notes, drawing tools, and bookmarks.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Highlighting" data-id="Highlighting">Highlighting</span>
+                                <span class="feature-tag secondary" data-en="Text Notes" data-id="Catatan Teks">Text Notes</span>
+                                <span class="feature-tag accent" data-en="Drawing Tools" data-id="Alat Menggambar">Drawing Tools</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Screenshots -->
+            <div class="category-section" data-category="settings">
+                <div class="category-header">
+                    <h2 data-en="Settings & Customization" data-id="Pengaturan & Kustomisasi">Settings & Customization</h2>
+                    <p data-en="Personalize your FocusBro experience with comprehensive settings" data-id="Personalisasi pengalaman FocusBro Anda dengan pengaturan yang komprehensif">Personalize your FocusBro experience with comprehensive settings</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="screenshot-card" data-category="settings">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                ⚙️ Settings Menu
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Enhanced Settings Screen" data-id="Layar Pengaturan Ditingkatkan">Enhanced Settings Screen</h3>
+                            <p class="screenshot-description" data-en="Comprehensive settings with theme options, accessibility features, and privacy controls." data-id="Pengaturan komprehensif dengan opsi tema, fitur aksesibilitas, dan kontrol privasi.">Comprehensive settings with theme options, accessibility features, and privacy controls.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="Theme Options" data-id="Opsi Tema">Theme Options</span>
+                                <span class="feature-tag secondary" data-en="Accessibility" data-id="Aksesibilitas">Accessibility</span>
+                                <span class="feature-tag accent" data-en="Privacy Controls" data-id="Kontrol Privasi">Privacy Controls</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card" data-category="settings">
+                        <div class="screenshot-image">
+                            <div style="position: relative; z-index: 1;">
+                                🔒 Security Settings
+                            </div>
+                        </div>
+                        <div class="screenshot-content">
+                            <h3 class="screenshot-title" data-en="Security & Privacy" data-id="Keamanan & Privasi">Security & Privacy</h3>
+                            <p class="screenshot-description" data-en="Advanced security options including app lock, biometric authentication, and data backup controls." data-id="Opsi keamanan lanjutan termasuk kunci aplikasi, autentikasi biometrik, dan kontrol backup data.">Advanced security options including app lock, biometric authentication, and data backup controls.</p>
+                            <div class="screenshot-features">
+                                <span class="feature-tag primary" data-en="App Lock" data-id="Kunci Aplikasi">App Lock</span>
+                                <span class="feature-tag secondary" data-en="Biometric Auth" data-id="Auth Biometrik">Biometric Auth</span>
+                                <span class="feature-tag accent" data-en="Data Backup" data-id="Backup Data">Data Backup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-image" id="lightbox-image">
+                Screenshot Preview
+            </div>
+            <div class="lightbox-info">
+                <h3 id="lightbox-title">Screenshot Title</h3>
+                <p id="lightbox-description">Screenshot description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        // Gallery functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const screenshotCards = document.querySelectorAll('.screenshot-card');
+            const categorySections = document.querySelectorAll('.category-section');
+            
+            // Filter functionality
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Update active filter button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show/hide sections and cards
+                    if (filter === 'all') {
+                        categorySections.forEach(section => section.style.display = 'block');
+                        screenshotCards.forEach(card => card.style.display = 'block');
+                    } else {
+                        categorySections.forEach(section => {
+                            if (section.getAttribute('data-category') === filter) {
+                                section.style.display = 'block';
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        });
+                        
+                        screenshotCards.forEach(card => {
+                            if (card.getAttribute('data-category') === filter) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Lightbox functionality
+            screenshotCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.screenshot-title').textContent;
+                    const description = this.querySelector('.screenshot-description').textContent;
+                    const imageText = this.querySelector('.screenshot-image div').textContent;
+                    
+                    document.getElementById('lightbox-title').textContent = title;
+                    document.getElementById('lightbox-description').textContent = description;
+                    document.getElementById('lightbox-image').innerHTML = '<div style="position: relative; z-index: 1;">' + imageText + '</div>';
+                    
+                    document.getElementById('lightbox').classList.add('active');
+                });
+            });
+        });
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+        
+        // Close lightbox on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>

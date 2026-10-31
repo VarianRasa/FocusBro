@@ -1,0 +1,45 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "focusbro-35cd2",
+          "appId": "1:187168838711:android:276d188c4e9270df689bb2",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "focusbro-35cd2",
+          "configurations": {
+            "android": "1:187168838711:android:276d188c4e9270df689bb2",
+            "ios": "1:187168838711:ios:9e37561e73523302689bb2",
+            "macos": "1:187168838711:ios:9e37561e73523302689bb2",
+            "web": "1:187168838711:web:2fc8daea24d4b89a689bb2",
+            "windows": "1:187168838711:web:4a9b8177a8e4a792689bb2"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  }
+}

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="API Documentation - FocusBro" data-id="Dokumentasi API - FocusBro">API Documentation - FocusBro</title>
+    <meta name="description" content="FocusBro API documentation for developers. Learn about data formats, export/import, and integration possibilities." data-en="FocusBro API documentation for developers. Learn about data formats, export/import, and integration possibilities." data-id="Dokumentasi API FocusBro untuk pengembang. Pelajari tentang format data, ekspor/impor, dan kemungkinan integrasi.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        .api-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .api-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: var(--spacing-8);
+        }
+        
+        .api-sidebar {
+            background: white;
+            padding: var(--spacing-6);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+        
+        .api-nav {
+            list-style: none;
+        }
+        
+        .api-nav li {
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .api-nav a {
+            display: block;
+            padding: var(--spacing-2) var(--spacing-3);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+            font-size: var(--font-size-sm);
+        }
+        
+        .api-nav a:hover,
+        .api-nav a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .api-content {
+            background: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .api-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .api-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .api-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+        
+        .api-section {
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .api-section h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-6);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-3);
+        }
+        
+        .api-section h3 {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin: var(--spacing-6) 0 var(--spacing-4) 0;
+            color: var(--text-primary);
+        }
+        
+        .api-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .code-block {
+            background: #2d3748;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: var(--font-size-sm);
+        }
+        
+        .endpoint-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin: var(--spacing-4) 0;
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .method-badge {
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: white;
+        }
+        
+        .method-badge.get { background: #10b981; }
+        .method-badge.post { background: #3b82f6; }
+        .method-badge.put { background: #f59e0b; }
+        .method-badge.delete { background: #ef4444; }
+        
+        .endpoint-url {
+            font-family: 'Fira Code', monospace;
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .parameter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-4) 0;
+        }
+        
+        .parameter-table th,
+        .parameter-table td {
+            padding: var(--spacing-3);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .parameter-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .parameter-table td {
+            color: var(--text-secondary);
+        }
+        
+        .parameter-type {
+            font-family: 'Fira Code', monospace;
+            font-size: var(--font-size-sm);
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            color: var(--primary-color);
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .warning-box {
+            background: #fef3cd;
+            border: 1px solid #fde047;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .warning-box i {
+            color: #f59e0b;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .info-box i {
+            color: #0ea5e9;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .api-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-4);
+            }
+            
+            .api-sidebar {
+                position: static;
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="../index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="../index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="../index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="../index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="site-search" placeholder="Search documentation..." class="search-input">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- API Documentation Content -->
+    <main class="api-main">
+        <div class="api-container">
+            <!-- Sidebar Navigation -->
+            <aside class="api-sidebar">
+                <h3 data-en="API Reference" data-id="Referensi API">API Reference</h3>
+                <ul class="api-nav">
+                    <li><a href="#overview" class="active" data-en="Overview" data-id="Ringkasan">Overview</a></li>
+                    <li><a href="#data-formats" data-en="Data Formats" data-id="Format Data">Data Formats</a></li>
+                    <li><a href="#export-import" data-en="Export/Import" data-id="Ekspor/Impor">Export/Import</a></li>
+                    <li><a href="#backup-restore" data-en="Backup/Restore" data-id="Cadangan/Pulihkan">Backup/Restore</a></li>
+                    <li><a href="#integration" data-en="Integration" data-id="Integrasi">Integration</a></li>
+                    <li><a href="#examples" data-en="Examples" data-id="Contoh">Examples</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="api-content">
+                <a href="../index.html#docs" class="back-link">
+                    <i class="fas fa-arrow-left"></i> <span data-en="Back to Documentation" data-id="Kembali ke Dokumentasi">Back to Documentation</span>
+                </a>
+
+                <div class="api-header">
+                    <h1 data-en="API Documentation" data-id="Dokumentasi API">API Documentation</h1>
+                    <p data-en="Developer resources for FocusBro data formats, export/import, and integration possibilities." data-id="Sumber daya pengembang untuk format data FocusBro, ekspor/impor, dan kemungkinan integrasi.">Developer resources for FocusBro data formats, export/import, and integration possibilities.</p>
+                </div>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Note:</strong> FocusBro currently stores data locally. This API documentation covers data formats and export/import capabilities for integration purposes.
+                    </div>
+                </div>
+
+                <!-- Overview -->
+                <section class="api-section" id="overview">
+                    <h2>Overview</h2>
+                    <p>FocusBro provides several ways to access and manipulate your productivity data:</p>
+                    <ul>
+                        <li><strong>Data Export:</strong> Export tasks, notes, and settings in JSON format</li>
+                        <li><strong>Data Import:</strong> Import data from other productivity apps</li>
+                        <li><strong>Backup/Restore:</strong> Complete app data backup and restoration</li>
+                        <li><strong>File Integration:</strong> Work with PDF files and media imports</li>
+                    </ul>
+                    
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Local Storage:</strong> All data is stored locally on your device using SQLite database with encryption. No external API calls are made for data storage.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Data Formats -->
+                <section class="api-section" id="data-formats">
+                    <h2>Data Formats</h2>
+                    
+                    <h3>Task Object</h3>
+                    <p>Tasks are stored and exported in the following JSON format:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "id": "uuid-string",
+  "title": "Complete project documentation",
+  "description": "Write comprehensive API documentation for FocusBro",
+  "priority": "high",
+  "category": "work",
+  "status": "inProgress",
+  "dueDate": "2024-12-20T10:00:00Z",
+  "estimatedSessions": 3,
+  "completedSessions": 1,
+  "createdAt": "2024-12-15T09:00:00Z",
+  "updatedAt": "2024-12-16T14:30:00Z",
+  "tags": ["documentation", "api", "development"]
+}</code></pre>
+                    </div>
+
+                    <h3>Note Object</h3>
+                    <p>Notes are structured as follows:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "id": "uuid-string",
+  "title": "Meeting Notes - Project Kickoff",
+  "content": "# Meeting Notes\n\n## Attendees\n- John Doe\n- Jane Smith\n\n## Action Items\n- [ ] Create project timeline\n- [ ] Set up development environment",
+  "tags": ["meeting", "project", "kickoff"],
+  "isPinned": false,
+  "createdAt": "2024-12-15T14:00:00Z",
+  "updatedAt": "2024-12-15T14:30:00Z"
+}</code></pre>
+                    </div>
+
+                    <h3>Focus Session Object</h3>
+                    <p>Focus session data structure:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "id": "uuid-string",
+  "duration": 1500,
+  "actualDuration": 1485,
+  "taskId": "related-task-uuid",
+  "startTime": "2024-12-15T10:00:00Z",
+  "endTime": "2024-12-15T10:25:00Z",
+  "completed": true,
+  "musicTrack": "forest-ambience.mp3",
+  "notes": "Very productive session, completed main features"
+}</code></pre>
+                    </div>
+                </section>
+
+                <!-- Export/Import -->
+                <section class="api-section" id="export-import">
+                    <h2>Export/Import</h2>
+                    
+                    <h3>Export Data</h3>
+                    <p>FocusBro supports exporting data in multiple formats:</p>
+                    
+                    <div class="endpoint-card">
+                        <div class="endpoint-header">
+                            <span class="method-badge get">EXPORT</span>
+                            <span class="endpoint-url">Settings → Data & Privacy → Export Data</span>
+                        </div>
+                        <p>Export all app data including tasks, notes, settings, and session history.</p>
+                        
+                        <h4>Export Formats:</h4>
+                        <table class="parameter-table">
+                            <thead>
+                                <tr>
+                                    <th>Format</th>
+                                    <th>Extension</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="parameter-type">JSON</span></td>
+                                    <td>.json</td>
+                                    <td>Complete data export with full structure</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="parameter-type">CSV</span></td>
+                                    <td>.csv</td>
+                                    <td>Tasks and sessions in spreadsheet format</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="parameter-type">TXT</span></td>
+                                    <td>.txt</td>
+                                    <td>Notes in plain text format</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Import Data</h3>
+                    <p>Import data from other productivity applications:</p>
+                    
+                    <div class="endpoint-card">
+                        <div class="endpoint-header">
+                            <span class="method-badge post">IMPORT</span>
+                            <span class="endpoint-url">Settings → Data & Privacy → Import Data</span>
+                        </div>
+                        <p>Import tasks and notes from supported formats and applications.</p>
+                        
+                        <h4>Supported Sources:</h4>
+                        <ul>
+                            <li><strong>Todoist:</strong> JSON export files</li>
+                            <li><strong>Any.do:</strong> CSV export files</li>
+                            <li><strong>Google Tasks:</strong> JSON format</li>
+                            <li><strong>Apple Notes:</strong> Text files</li>
+                            <li><strong>Generic CSV:</strong> Custom mapping available</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Backup/Restore -->
+                <section class="api-section" id="backup-restore">
+                    <h2>Backup/Restore</h2>
+                    
+                    <h3>Create Backup</h3>
+                    <p>Complete app backup including database and media files:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "version": "1.0.0",
+  "timestamp": "2024-12-15T15:00:00Z",
+  "data": {
+    "tasks": [...],
+    "notes": [...],
+    "sessions": [...],
+    "settings": {...},
+    "media": [...]
+  },
+  "checksum": "sha256-hash"
+}</code></pre>
+                    </div>
+
+                    <h3>Restore from Backup</h3>
+                    <p>Restore app data from backup file with validation and conflict resolution.</p>
+                    
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Warning:</strong> Restoring from backup will replace all current data. Make sure to create a backup of your current data before proceeding.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Integration -->
+                <section class="api-section" id="integration">
+                    <h2>Integration Possibilities</h2>
+                    
+                    <h3>File System Integration</h3>
+                    <p>FocusBro integrates with your device's file system for:</p>
+                    <ul>
+                        <li><strong>PDF Import:</strong> Open PDF files from any file manager</li>
+                        <li><strong>Music Import:</strong> Import audio files for focus sessions</li>
+                        <li><strong>Note Export:</strong> Share notes to other apps</li>
+                        <li><strong>Backup Storage:</strong> Save backups to cloud storage</li>
+                    </ul>
+
+                    <h3>Intent Handling (Android)</h3>
+                    <p>FocusBro supports Android intents for external integration:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-xml">&lt;!-- Open PDF in FocusBro --&gt;
+&lt;intent-filter&gt;
+    &lt;action android:name="android.intent.action.VIEW" /&gt;
+    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+    &lt;data android:mimeType="application/pdf" /&gt;
+&lt;/intent-filter&gt;
+
+&lt;!-- Share text to create note --&gt;
+&lt;intent-filter&gt;
+    &lt;action android:name="android.intent.action.SEND" /&gt;
+    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+    &lt;data android:mimeType="text/plain" /&gt;
+&lt;/intent-filter&gt;</code></pre>
+                    </div>
+
+                    <h3>Future API Plans</h3>
+                    <p>Planned features for future versions:</p>
+                    <ul>
+                        <li><strong>Cloud Sync API:</strong> Optional cloud synchronization</li>
+                        <li><strong>Webhook Support:</strong> Task completion notifications</li>
+                        <li><strong>Plugin System:</strong> Third-party extensions</li>
+                        <li><strong>REST API:</strong> External app integration</li>
+                    </ul>
+                </section>
+
+                <!-- Examples -->
+                <section class="api-section" id="examples">
+                    <h2>Examples</h2>
+                    
+                    <h3>Export All Tasks</h3>
+                    <p>Example of exported tasks data:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "export": {
+    "type": "tasks",
+    "version": "1.0.0",
+    "timestamp": "2024-12-15T15:00:00Z",
+    "count": 25,
+    "data": [
+      {
+        "id": "task-001",
+        "title": "Review documentation",
+        "priority": "medium",
+        "status": "completed",
+        "completedAt": "2024-12-14T16:30:00Z"
+      },
+      {
+        "id": "task-002", 
+        "title": "Prepare presentation",
+        "priority": "high",
+        "status": "inProgress",
+        "dueDate": "2024-12-20T09:00:00Z"
+      }
+    ]
+  }
+}</code></pre>
+                    </div>
+
+                    <h3>Import CSV Tasks</h3>
+                    <p>CSV format for importing tasks:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-csv">title,description,priority,category,due_date,status
+"Complete project","Finish all remaining tasks","high","work","2024-12-20","todo"
+"Buy groceries","Weekly grocery shopping","low","personal","2024-12-16","todo"
+"Team meeting","Weekly standup meeting","medium","work","2024-12-17","completed"</code></pre>
+                    </div>
+
+                    <h3>Settings Export</h3>
+                    <p>User settings and preferences export format:</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-json">{
+  "settings": {
+    "theme": "light",
+    "language": "en",
+    "focusSession": {
+      "defaultDuration": 1500,
+      "breakDuration": 300,
+      "longBreakDuration": 900,
+      "sessionsUntilLongBreak": 4
+    },
+    "notifications": {
+      "enabled": true,
+      "sessionReminders": true,
+      "taskDeadlines": true
+    },
+    "privacy": {
+      "analytics": false,
+      "crashReporting": true,
+      "dataCollection": false
+    }
+  }
+}</code></pre>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 API Docs: Setting up language toggle...');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    console.log('🔄 API Docs: Switching to', lang);
+
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch language
+                    const elements = document.querySelectorAll('[data-en]');
+                    console.log('📝 API Docs: Found elements:', elements.length);
+
+                    elements.forEach(element => {
+                        const enText = element.getAttribute('data-en');
+                        const idText = element.getAttribute('data-id');
+
+                        if (lang === 'en' && enText) {
+                            element.textContent = enText;
+                        } else if (lang === 'id' && idText) {
+                            element.textContent = idText;
+                        }
+                    });
+
+                    // Update title and meta
+                    const titleElement = document.querySelector('title');
+                    if (titleElement) {
+                        const enTitle = titleElement.getAttribute('data-en');
+                        const idTitle = titleElement.getAttribute('data-id');
+
+                        if (lang === 'en' && enTitle) {
+                            titleElement.textContent = enTitle;
+                        } else if (lang === 'id' && idTitle) {
+                            titleElement.textContent = idTitle;
+                        }
+                    }
+
+                    localStorage.setItem('focusbro-lang', lang);
+                    document.documentElement.lang = lang;
+
+                    console.log('✅ API Docs: Language switched to', lang);
+                });
+            });
+
+            // Load saved language
+            const savedLang = localStorage.getItem('focusbro-lang') || 'en';
+            const savedBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+            if (savedBtn) {
+                savedBtn.click();
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Smooth scrolling for sidebar navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.api-nav a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // Update active link
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Smooth scroll to target
+                        const offsetTop = targetElement.offsetTop - 100;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Update active link on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.api-section');
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

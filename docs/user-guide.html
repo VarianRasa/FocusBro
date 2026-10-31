@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - FocusBro Documentation</title>
+    <meta name="description" content="Complete step-by-step user guide for FocusBro productivity app with tutorials and best practices.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Documentation specific styles */
+        .docs-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .docs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .docs-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .docs-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .docs-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .docs-content {
+            background: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .docs-section {
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .docs-section h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-3);
+        }
+        
+        .docs-section h2 i {
+            color: var(--primary-color);
+        }
+        
+        .tutorial-step {
+            background: var(--bg-secondary);
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-6);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .tutorial-step h3 {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+        }
+        
+        .tutorial-step p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .tutorial-step ol, .tutorial-step ul {
+            margin-left: var(--spacing-5);
+            color: var(--text-secondary);
+        }
+        
+        .tutorial-step ol li, .tutorial-step ul li {
+            margin-bottom: var(--spacing-2);
+            line-height: 1.6;
+        }
+        
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: var(--spacing-4) 0;
+            font-weight: 600;
+        }
+        
+        .tip-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .tip-box i {
+            color: #0ea5e9;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .warning-box {
+            background: #fef3cd;
+            border: 1px solid #fde047;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .warning-box i {
+            color: #f59e0b;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-4);
+            margin: var(--spacing-6) 0;
+        }
+        
+        .workflow-card {
+            background: white;
+            padding: var(--spacing-5);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+        }
+        
+        .workflow-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .workflow-card h4 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-3);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .workflow-card i {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="../index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="../index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="../index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="../index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <main class="docs-main">
+        <div class="docs-container">
+            <a href="../index.html#docs" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Documentation" data-id="Kembali ke Dokumentasi">Back to Documentation</span>
+            </a>
+
+            <div class="docs-header">
+                <h1 data-en="FocusBro User Guide" data-id="Panduan Pengguna FocusBro">FocusBro User Guide</h1>
+                <p data-en="Complete step-by-step tutorials and best practices to master FocusBro and boost your productivity." data-id="Tutorial langkah demi langkah lengkap dan praktik terbaik untuk menguasai FocusBro dan meningkatkan produktivitas Anda.">Complete step-by-step tutorials and best practices to master FocusBro and boost your productivity.</p>
+            </div>
+
+            <div class="docs-content">
+                <!-- Task Management Tutorial -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-tasks"></i> <span data-en="Task Management Tutorial" data-id="Tutorial Manajemen Tugas">Task Management Tutorial</span>
+                    </h2>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">1</span>
+                            <span data-en="Creating Your First Task" data-id="Membuat Tugas Pertama Anda">Creating Your First Task</span>
+                        </h3>
+                        <p data-en="Learn how to create and organize tasks effectively in FocusBro." data-id="Pelajari cara membuat dan mengorganisir tugas secara efektif di FocusBro.">Learn how to create and organize tasks effectively in FocusBro.</p>
+
+                        <ol>
+                            <li data-en="Open FocusBro and navigate to the main dashboard" data-id="Buka FocusBro dan navigasi ke dashboard utama">Open FocusBro and navigate to the main dashboard</li>
+                            <li data-en="Tap the floating action button (+) at the bottom right" data-id="Ketuk tombol aksi mengambang (+) di kanan bawah">Tap the floating action button (+) at the bottom right</li>
+                            <li data-en="Fill in the task details:" data-id="Isi detail tugas:">Fill in the task details:
+                                <ul>
+                                    <li><strong data-en="Title:" data-id="Judul:">Title:</strong> <span data-en="Brief, descriptive name" data-id="Nama singkat dan deskriptif">Brief, descriptive name</span></li>
+                                    <li><strong data-en="Description:" data-id="Deskripsi:">Description:</strong> <span data-en="Additional details or notes" data-id="Detail tambahan atau catatan">Additional details or notes</span></li>
+                                    <li><strong data-en="Priority:" data-id="Prioritas:">Priority:</strong> <span data-en="High, Medium, or Low" data-id="Tinggi, Sedang, atau Rendah">High, Medium, or Low</span></li>
+                                    <li><strong data-en="Category:" data-id="Kategori:">Category:</strong> <span data-en="Work, Personal, Health, or Learning" data-id="Kerja, Pribadi, Kesehatan, atau Belajar">Work, Personal, Health, or Learning</span></li>
+                                    <li><strong data-en="Due Date:" data-id="Tanggal Jatuh Tempo:">Due Date:</strong> <span data-en="Set deadline if needed" data-id="Tetapkan tenggat waktu jika diperlukan">Set deadline if needed</span></li>
+                                </ul>
+                            </li>
+                            <li data-en="Tap \"Save\" to create the task" data-id="Ketuk \"Simpan\" untuk membuat tugas">Tap "Save" to create the task</li>
+                        </ol>
+
+                        <div class="screenshot-placeholder">
+                            📱 <span data-en="Screenshot: Create Task Dialog" data-id="Screenshot: Dialog Buat Tugas">Screenshot: Create Task Dialog</span>
+                            <br><small data-en="Task creation form with all fields visible" data-id="Form pembuatan tugas dengan semua field terlihat">Task creation form with all fields visible</small>
+                        </div>
+
+                        <div class="tip-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong data-en="Pro Tip:" data-id="Tips Pro:">Pro Tip:</strong> <span data-en="Use descriptive titles and set realistic deadlines. This helps with prioritization and time management." data-id="Gunakan judul yang deskriptif dan tetapkan tenggat waktu yang realistis. Ini membantu dengan prioritas dan manajemen waktu.">Use descriptive titles and set realistic deadlines. This helps with prioritization and time management.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">2</span>
+                            Organizing Tasks by Views
+                        </h3>
+                        <p>Navigate between different task views to stay organized.</p>
+                        
+                        <ul>
+                            <li><strong>Today:</strong> Tasks due today and overdue items</li>
+                            <li><strong>In Progress:</strong> Tasks you're actively working on</li>
+                            <li><strong>Completed:</strong> Finished tasks for reference</li>
+                            <li><strong>Upcoming:</strong> Future tasks and scheduled items</li>
+                        </ul>
+                        
+                        <div class="screenshot-placeholder">
+                            📱 Screenshot: Task Views Navigation
+                            <br><small>Bottom navigation showing different task views</small>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">3</span>
+                            Using Filters and Search
+                        </h3>
+                        <p>Find tasks quickly using filters and search functionality.</p>
+                        
+                        <ol>
+                            <li>Tap the filter icon in the app bar</li>
+                            <li>Select filters:
+                                <ul>
+                                    <li><strong>Priority:</strong> Filter by High, Medium, Low</li>
+                                    <li><strong>Category:</strong> Filter by Work, Personal, etc.</li>
+                                    <li><strong>Status:</strong> Filter by completion status</li>
+                                </ul>
+                            </li>
+                            <li>Use the search bar to find specific tasks by title or description</li>
+                        </ol>
+                        
+                        <div class="tip-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Pro Tip:</strong> Combine filters for precise task filtering. For example, "High Priority + Work Category" to see urgent work tasks.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Focus Sessions Tutorial -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-bullseye"></i> Focus Sessions Tutorial
+                    </h2>
+                    
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">1</span>
+                            Starting Your First Focus Session
+                        </h3>
+                        <p>Learn how to use the Pomodoro timer for productive work sessions.</p>
+                        
+                        <ol>
+                            <li>Navigate to the Focus Screen from the bottom navigation</li>
+                            <li>Set your session duration:
+                                <ul>
+                                    <li>Use preset buttons (15, 25, 45 minutes)</li>
+                                    <li>Or set custom duration using the slider</li>
+                                </ul>
+                            </li>
+                            <li>Optional: Add background music or ambient sounds</li>
+                            <li>Tap the "Start Focus" button</li>
+                            <li>Work until the timer ends</li>
+                        </ol>
+                        
+                        <div class="screenshot-placeholder">
+                            📱 Screenshot: Focus Screen Interface
+                            <br><small>Timer, duration controls, and start button</small>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Note:</strong> During focus sessions, notifications may be blocked to minimize distractions. This is normal behavior.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">2</span>
+                            Customizing Focus Settings
+                        </h3>
+                        <p>Personalize your focus experience for maximum productivity.</p>
+                        
+                        <ul>
+                            <li><strong>Duration Settings:</strong> Adjust default session lengths</li>
+                            <li><strong>Break Intervals:</strong> Set automatic break reminders</li>
+                            <li><strong>Sound Settings:</strong> Choose ambient sounds or import music</li>
+                            <li><strong>Focus Mode:</strong> Enable screen dimming and notification blocking</li>
+                        </ul>
+                        
+                        <div class="screenshot-placeholder">
+                            📱 Screenshot: Focus Settings Dialog
+                            <br><small>Settings panel with customization options</small>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">3</span>
+                            Adding Background Music
+                        </h3>
+                        <p>Enhance your focus with ambient sounds or personal music.</p>
+                        
+                        <ol>
+                            <li>Tap the music icon in the Focus Screen</li>
+                            <li>Choose from built-in ambient sounds:
+                                <ul>
+                                    <li>Rain sounds</li>
+                                    <li>Forest ambience</li>
+                                    <li>White noise</li>
+                                    <li>Cafe atmosphere</li>
+                                </ul>
+                            </li>
+                            <li>Or import your own music files</li>
+                            <li>Create playlists for different work types</li>
+                            <li>Adjust volume and set fade-in/out preferences</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- Notes Tutorial -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-sticky-note"></i> Smart Notes Tutorial
+                    </h2>
+                    
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">1</span>
+                            Creating and Organizing Notes
+                        </h3>
+                        <p>Capture ideas and organize them effectively.</p>
+                        
+                        <ol>
+                            <li>Navigate to the Notes screen</li>
+                            <li>Tap the "+" button to create a new note</li>
+                            <li>Add title and content using the rich text editor</li>
+                            <li>Add tags for categorization (e.g., #work, #ideas, #meeting)</li>
+                            <li>Pin important notes to keep them at the top</li>
+                            <li>Save the note</li>
+                        </ol>
+                        
+                        <div class="screenshot-placeholder">
+                            📱 Screenshot: Note Editor Interface
+                            <br><small>Rich text editor with formatting options</small>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h3>
+                            <span class="step-number">2</span>
+                            Using Tags and Search
+                        </h3>
+                        <p>Find and organize notes using tags and search.</p>
+                        
+                        <ul>
+                            <li><strong>Adding Tags:</strong> Use # symbol followed by tag name</li>
+                            <li><strong>Filtering by Tags:</strong> Tap on any tag to filter notes</li>
+                            <li><strong>Search:</strong> Use the search bar to find notes by content</li>
+                            <li><strong>Advanced Search:</strong> Combine tags and text search</li>
+                        </ul>
+                        
+                        <div class="tip-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Pro Tip:</strong> Develop a consistent tagging system. Use tags like #project-name, #meeting-notes, #ideas for better organization.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Best Practices -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-star"></i> Best Practices & Workflows
+                    </h2>
+                    
+                    <div class="workflow-grid">
+                        <div class="workflow-card">
+                            <h4><i class="fas fa-briefcase"></i> Work Productivity</h4>
+                            <ul>
+                                <li>Start day by reviewing Today tasks</li>
+                                <li>Use High priority for urgent items</li>
+                                <li>25-minute focus sessions for deep work</li>
+                                <li>Take notes during meetings</li>
+                                <li>Review completed tasks weekly</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card">
+                            <h4><i class="fas fa-graduation-cap"></i> Study Sessions</h4>
+                            <ul>
+                                <li>Create tasks for each subject/topic</li>
+                                <li>Use 45-minute focus sessions</li>
+                                <li>Take notes while studying</li>
+                                <li>Tag notes by subject</li>
+                                <li>Track study time with analytics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card">
+                            <h4><i class="fas fa-home"></i> Personal Projects</h4>
+                            <ul>
+                                <li>Break projects into smaller tasks</li>
+                                <li>Set realistic deadlines</li>
+                                <li>Use Personal category</li>
+                                <li>Document progress in notes</li>
+                                <li>Celebrate completed milestones</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card">
+                            <h4><i class="fas fa-heart"></i> Health & Wellness</h4>
+                            <ul>
+                                <li>Schedule exercise and meal planning</li>
+                                <li>Use Health category for wellness tasks</li>
+                                <li>Set reminders for habits</li>
+                                <li>Track progress with notes</li>
+                                <li>Use gentle focus sessions for meditation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tips & Tricks -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-magic"></i> Tips & Tricks
+                    </h2>
+                    
+                    <div class="tutorial-step">
+                        <h3>Productivity Tips</h3>
+                        <ul>
+                            <li><strong>Time Blocking:</strong> Assign specific time slots to tasks</li>
+                            <li><strong>Batch Similar Tasks:</strong> Group similar activities together</li>
+                            <li><strong>Regular Reviews:</strong> Weekly review of completed and pending tasks</li>
+                            <li><strong>Realistic Estimates:</strong> Don't overcommit, set achievable goals</li>
+                            <li><strong>Break Large Tasks:</strong> Divide big projects into smaller, manageable tasks</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h3>App Usage Tips</h3>
+                        <ul>
+                            <li><strong>Quick Task Entry:</strong> Use voice-to-text for faster task creation</li>
+                            <li><strong>Keyboard Shortcuts:</strong> Learn gesture shortcuts for common actions</li>
+                            <li><strong>Backup Regularly:</strong> Export your data periodically</li>
+                            <li><strong>Customize Notifications:</strong> Set up reminders that work for your schedule</li>
+                            <li><strong>Use Widgets:</strong> Add FocusBro widgets to your home screen</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 User Guide: Setting up language toggle...');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    console.log('🔄 User Guide: Switching to', lang);
+
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch language
+                    const elements = document.querySelectorAll('[data-en]');
+                    console.log('📝 User Guide: Found elements:', elements.length);
+
+                    elements.forEach(element => {
+                        const enText = element.getAttribute('data-en');
+                        const idText = element.getAttribute('data-id');
+
+                        if (lang === 'en' && enText) {
+                            element.textContent = enText;
+                        } else if (lang === 'id' && idText) {
+                            element.textContent = idText;
+                        }
+                    });
+
+                    // Update title and meta
+                    const titleElement = document.querySelector('title');
+                    if (titleElement) {
+                        const enTitle = titleElement.getAttribute('data-en');
+                        const idTitle = titleElement.getAttribute('data-id');
+
+                        if (lang === 'en' && enTitle) {
+                            titleElement.textContent = enTitle;
+                        } else if (lang === 'id' && idTitle) {
+                            titleElement.textContent = idTitle;
+                        }
+                    }
+
+                    localStorage.setItem('focusbro-lang', lang);
+                    document.documentElement.lang = lang;
+
+                    console.log('✅ User Guide: Language switched to', lang);
+                });
+            });
+
+            // Load saved language
+            const savedLang = localStorage.getItem('focusbro-lang') || 'en';
+            const savedBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+            if (savedBtn) {
+                savedBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

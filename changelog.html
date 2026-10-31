@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Changelog - FocusBro" data-id="Riwayat Perubahan - FocusBro">Changelog - FocusBro</title>
+    <meta name="description" content="FocusBro version history, release notes, and updates. Track new features, improvements, and bug fixes." data-en="FocusBro version history, release notes, and updates. Track new features, improvements, and bug fixes." data-id="Riwayat versi FocusBro, catatan rilis, dan pembaruan. Lacak fitur baru, perbaikan, dan perbaikan bug.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .changelog-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .changelog-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .changelog-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .changelog-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .changelog-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+        
+        .version-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-8);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .version-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .version-info h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .version-info .version-date {
+            font-size: var(--font-size-sm);
+            opacity: 0.9;
+        }
+        
+        .version-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        
+        .version-content {
+            padding: var(--spacing-6);
+        }
+        
+        .change-section {
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .change-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .change-section h3 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-3);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .change-section.new h3 i { color: var(--secondary-color); }
+        .change-section.improved h3 i { color: var(--primary-color); }
+        .change-section.fixed h3 i { color: var(--accent-color); }
+        .change-section.removed h3 i { color: #ef4444; }
+        
+        .change-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .change-item {
+            display: flex;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+            padding: var(--spacing-3);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--border-color);
+        }
+        
+        .change-item.new { border-left-color: var(--secondary-color); }
+        .change-item.improved { border-left-color: var(--primary-color); }
+        .change-item.fixed { border-left-color: var(--accent-color); }
+        .change-item.removed { border-left-color: #ef4444; }
+        
+        .change-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xs);
+            color: white;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .change-icon.new { background: var(--secondary-color); }
+        .change-icon.improved { background: var(--primary-color); }
+        .change-icon.fixed { background: var(--accent-color); }
+        .change-icon.removed { background: #ef4444; }
+        
+        .change-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .download-section {
+            background: var(--bg-secondary);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin-top: var(--spacing-4);
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-4);
+            margin: var(--spacing-6) 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: var(--spacing-4);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-number {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Changelog Content -->
+    <main class="changelog-main">
+        <div class="changelog-container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Home" data-id="Kembali ke Beranda">Back to Home</span>
+            </a>
+
+            <div class="changelog-header">
+                <h1 data-en="Changelog" data-id="Riwayat Perubahan">Changelog</h1>
+                <p data-en="Track FocusBro's evolution with detailed release notes and version history." data-id="Lacak evolusi FocusBro dengan catatan rilis detail dan riwayat versi.">Track FocusBro's evolution with detailed release notes and version history.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1.0.0</div>
+                        <div class="stat-label" data-en="Current Version" data-id="Versi Saat Ini">Current Version</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Dec 2024</div>
+                        <div class="stat-label" data-en="Latest Release" data-id="Rilis Terbaru">Latest Release</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label" data-en="Features" data-id="Fitur">Features</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">102MB</div>
+                        <div class="stat-label" data-en="App Size" data-id="Ukuran Aplikasi">App Size</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version 1.0.0 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-info">
+                        <h2 data-en="Version 1.0.0" data-id="Versi 1.0.0">Version 1.0.0</h2>
+                        <div class="version-date" data-en="Released December 15, 2024" data-id="Dirilis 15 Desember 2024">Released December 15, 2024</div>
+                    </div>
+                    <div class="version-badge" data-en="Initial Release" data-id="Rilis Awal">Initial Release</div>
+                </div>
+                
+                <div class="version-content">
+                    <div class="change-section new">
+                        <h3><i class="fas fa-plus"></i> <span data-en="New Features" data-id="Fitur Baru">New Features</span></h3>
+                        <ul class="change-list">
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Task Management System:" data-id="Sistem Manajemen Tugas:">Task Management System:</strong> <span data-en="Complete task creation, organization, and tracking with priorities and categories" data-id="Pembuatan, organisasi, dan pelacakan tugas lengkap dengan prioritas dan kategori">Complete task creation, organization, and tracking with priorities and categories</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Focus Sessions:" data-id="Sesi Fokus:">Focus Sessions:</strong> <span data-en="Pomodoro timer with customizable durations (1-60 minutes) and break intervals" data-id="Timer Pomodoro dengan durasi yang dapat disesuaikan (1-60 menit) dan interval istirahat">Pomodoro timer with customizable durations (1-60 minutes) and break intervals</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Smart Notes:" data-id="Catatan Cerdas:">Smart Notes:</strong> <span data-en="Rich text note-taking with tags, pinning, and advanced search functionality" data-id="Pencatatan teks kaya dengan tag, pin, dan fungsi pencarian lanjutan">Rich text note-taking with tags, pinning, and advanced search functionality</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="PDF Reader:" data-id="Pembaca PDF:">PDF Reader:</strong> <span data-en="Advanced PDF viewer with annotation tools, search, and document management" data-id="Penampil PDF lanjutan dengan alat anotasi, pencarian, dan manajemen dokumen">Advanced PDF viewer with annotation tools, search, and document management</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Background Music:" data-id="Musik Latar:">Background Music:</strong> <span data-en="Built-in ambient sounds and custom music import for focus sessions" data-id="Suara ambient bawaan dan impor musik kustom untuk sesi fokus">Built-in ambient sounds and custom music import for focus sessions</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Analytics Dashboard:" data-id="Dashboard Analitik:">Analytics Dashboard:</strong> <span data-en="Comprehensive productivity tracking with charts and insights" data-id="Pelacakan produktivitas komprehensif dengan grafik dan wawasan">Comprehensive productivity tracking with charts and insights</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Focus Mode:" data-id="Mode Fokus:">Focus Mode:</strong> <span data-en="Distraction blocking with screen brightness control and notification management" data-id="Pemblokiran gangguan dengan kontrol kecerahan layar dan manajemen notifikasi">Distraction blocking with screen brightness control and notification management</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Multi-language Support:" data-id="Dukungan Multi-bahasa:">Multi-language Support:</strong> <span data-en="English and Indonesian language options" data-id="Opsi bahasa Inggris dan Indonesia">English and Indonesian language options</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="change-section improved">
+                        <h3><i class="fas fa-arrow-up"></i> <span data-en="Core Features" data-id="Fitur Inti">Core Features</span></h3>
+                        <ul class="change-list">
+                            <li class="change-item improved">
+                                <div class="change-icon improved"><i class="fas fa-cog"></i></div>
+                                <div class="change-text"><strong data-en="Material Design 3:" data-id="Material Design 3:">Material Design 3:</strong> <span data-en="Modern UI with consistent design patterns and smooth animations" data-id="UI modern dengan pola desain yang konsisten dan animasi yang halus">Modern UI with consistent design patterns and smooth animations</span></div>
+                            </li>
+                            <li class="change-item improved">
+                                <div class="change-icon improved"><i class="fas fa-mobile-alt"></i></div>
+                                <div class="change-text"><strong data-en="Responsive Design:" data-id="Desain Responsif:">Responsive Design:</strong> <span data-en="Optimized for all Android screen sizes and orientations" data-id="Dioptimalkan untuk semua ukuran layar dan orientasi Android">Optimized for all Android screen sizes and orientations</span></div>
+                            </li>
+                            <li class="change-item improved">
+                                <div class="change-icon improved"><i class="fas fa-database"></i></div>
+                                <div class="change-text"><strong data-en="Local Data Storage:" data-id="Penyimpanan Data Lokal:">Local Data Storage:</strong> <span data-en="Secure SQLite database with encryption and backup capabilities" data-id="Database SQLite aman dengan enkripsi dan kemampuan backup">Secure SQLite database with encryption and backup capabilities</span></div>
+                            </li>
+                            <li class="change-item improved">
+                                <div class="change-icon improved"><i class="fas fa-sync"></i></div>
+                                <div class="change-text"><strong data-en="Real-time Updates:" data-id="Pembaruan Real-time:">Real-time Updates:</strong> <span data-en="Instant synchronization across all app screens and features" data-id="Sinkronisasi instan di semua layar dan fitur aplikasi">Instant synchronization across all app screens and features</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="change-section fixed">
+                        <h3><i class="fas fa-tools"></i> <span data-en="Technical Details" data-id="Detail Teknis">Technical Details</span></h3>
+                        <ul class="change-list">
+                            <li class="change-item fixed">
+                                <div class="change-icon fixed"><i class="fas fa-shield-alt"></i></div>
+                                <div class="change-text"><strong data-en="Security:" data-id="Keamanan:">Security:</strong> <span data-en="App lock with biometric authentication and secure data encryption" data-id="Kunci aplikasi dengan autentikasi biometrik dan enkripsi data aman">App lock with biometric authentication and secure data encryption</span></div>
+                            </li>
+                            <li class="change-item fixed">
+                                <div class="change-icon fixed"><i class="fas fa-battery-three-quarters"></i></div>
+                                <div class="change-text"><strong data-en="Performance:" data-id="Kinerja:">Performance:</strong> <span data-en="Optimized for battery life and smooth performance on Android 5.0+" data-id="Dioptimalkan untuk daya tahan baterai dan kinerja halus di Android 5.0+">Optimized for battery life and smooth performance on Android 5.0+</span></div>
+                            </li>
+                            <li class="change-item fixed">
+                                <div class="change-icon fixed"><i class="fas fa-universal-access"></i></div>
+                                <div class="change-text"><strong data-en="Accessibility:" data-id="Aksesibilitas:">Accessibility:</strong> <span data-en="Screen reader support and high contrast mode options" data-id="Dukungan pembaca layar dan opsi mode kontras tinggi">Screen reader support and high contrast mode options</span></div>
+                            </li>
+                            <li class="change-item fixed">
+                                <div class="change-icon fixed"><i class="fas fa-download"></i></div>
+                                <div class="change-text"><strong data-en="Distribution:" data-id="Distribusi:">Distribution:</strong> <span data-en="Direct APK download with comprehensive documentation website" data-id="Unduhan APK langsung dengan website dokumentasi komprehensif">Direct APK download with comprehensive documentation website</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="download-section">
+                        <h4 data-en="Download Version 1.0.0" data-id="Unduh Versi 1.0.0">Download Version 1.0.0</h4>
+                        <p data-en="Get the latest version of FocusBro with all features included." data-id="Dapatkan versi terbaru FocusBro dengan semua fitur yang disertakan.">Get the latest version of FocusBro with all features included.</p>
+                        <a href="assets/downloads/focusbro-v1.0.0.apk" class="btn btn-primary" download>
+                            <i class="fas fa-download"></i> <span data-en="Download APK (102MB)" data-id="Unduh APK (102MB)">Download APK (102MB)</span>
+                        </a>
+                        <p style="margin-top: 10px; font-size: var(--font-size-sm); color: var(--text-light);" data-en="Requires Android 5.0+ • SHA256: Available on request" data-id="Memerlukan Android 5.0+ • SHA256: Tersedia atas permintaan">
+                            Requires Android 5.0+ • SHA256: Available on request
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future Versions Placeholder -->
+            <div class="version-card" style="opacity: 0.7;">
+                <div class="version-header" style="background: linear-gradient(135deg, #9ca3af, #6b7280);">
+                    <div class="version-info">
+                        <h2 data-en="Version 1.1.0" data-id="Versi 1.1.0">Version 1.1.0</h2>
+                        <div class="version-date" data-en="Coming Soon" data-id="Segera Hadir">Coming Soon</div>
+                    </div>
+                    <div class="version-badge" data-en="In Development" data-id="Dalam Pengembangan">In Development</div>
+                </div>
+
+                <div class="version-content">
+                    <div class="change-section new">
+                        <h3><i class="fas fa-plus"></i> <span data-en="Planned Features" data-id="Fitur yang Direncanakan">Planned Features</span></h3>
+                        <ul class="change-list">
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Cloud Sync:" data-id="Sinkronisasi Cloud:">Cloud Sync:</strong> <span data-en="Optional cloud backup and synchronization across devices" data-id="Backup cloud opsional dan sinkronisasi lintas perangkat">Optional cloud backup and synchronization across devices</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Widget Support:" data-id="Dukungan Widget:">Widget Support:</strong> <span data-en="Home screen widgets for quick task access and timer control" data-id="Widget layar beranda untuk akses tugas cepat dan kontrol timer">Home screen widgets for quick task access and timer control</span></div>
+                            </li>
+                            <li class="change-item new">
+                                <div class="change-icon new"><i class="fas fa-plus"></i></div>
+                                <div class="change-text"><strong data-en="Advanced Analytics:" data-id="Analitik Lanjutan:">Advanced Analytics:</strong> <span data-en="Detailed productivity insights and goal tracking" data-id="Wawasan produktivitas detail dan pelacakan tujuan">Detailed productivity insights and goal tracking</span></div>
+                            </li>
+                            <li class="change-item improved">
+                                <div class="change-icon improved"><i class="fas fa-arrow-up"></i></div>
+                                <div class="change-text"><strong data-en="Performance Improvements:" data-id="Peningkatan Kinerja:">Performance Improvements:</strong> <span data-en="Faster app startup and reduced memory usage" data-id="Startup aplikasi lebih cepat dan penggunaan memori berkurang">Faster app startup and reduced memory usage</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/language-toggle.js?v=1.0"></script>
+
+</body>
+</html>

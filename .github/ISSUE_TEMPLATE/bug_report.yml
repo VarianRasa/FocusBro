@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a reproducible problem in FocusBro
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest repeatable sequence.
+      placeholder: 1. Open ... 2. Tap ...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: App version and device/platform
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or screenshots
+      description: Remove personal information and secrets before posting.
+    validations:
+      required: false

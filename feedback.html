@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Feedback - FocusBro" data-id="Masukan - FocusBro">Feedback - FocusBro</title>
+    <meta name="description" content="Send feedback, suggestions, and bug reports for FocusBro productivity app. Help us improve your experience." data-en="Send feedback, suggestions, and bug reports for FocusBro productivity app. Help us improve your experience." data-id="Kirim masukan, saran, dan laporan bug untuk aplikasi produktivitas FocusBro. Bantu kami meningkatkan pengalaman Anda.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .feedback-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .feedback-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .feedback-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .feedback-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .feedback-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+        
+        .feedback-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .feedback-type {
+            background: white;
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            text-align: center;
+        }
+        
+        .feedback-type:hover,
+        .feedback-type.active {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .feedback-type.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .feedback-type i {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-3);
+            color: var(--primary-color);
+        }
+        
+        .feedback-type.active i {
+            color: white;
+        }
+        
+        .feedback-type h3 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .feedback-type p {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .feedback-type.active p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .feedback-form {
+            background: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-3);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            transition: var(--transition-fast);
+            font-family: inherit;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-4);
+        }
+        
+        .rating-group {
+            display: flex;
+            gap: var(--spacing-2);
+            align-items: center;
+        }
+        
+        .rating-star {
+            font-size: var(--font-size-xl);
+            color: #d1d5db;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .rating-star:hover,
+        .rating-star.active {
+            color: #fbbf24;
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+        
+        .form-checkbox label {
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: var(--spacing-4) var(--spacing-8);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin: 0 auto;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #34d399;
+            color: #065f46;
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-6);
+            display: none;
+            align-items: center;
+            gap: var(--spacing-3);
+        }
+        
+        .success-message i {
+            color: #10b981;
+            font-size: var(--font-size-lg);
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #f87171;
+            color: #991b1b;
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-6);
+            display: none;
+            align-items: center;
+            gap: var(--spacing-3);
+        }
+        
+        .error-message i {
+            color: #ef4444;
+            font-size: var(--font-size-lg);
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .feedback-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="site-search" placeholder="Search documentation..." class="search-input">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feedback Content -->
+    <main class="feedback-main">
+        <div class="feedback-container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Home" data-id="Kembali ke Beranda">Back to Home</span>
+            </a>
+
+            <div class="feedback-header">
+                <h1 data-en="Send Feedback" data-id="Kirim Masukan">Send Feedback</h1>
+                <p data-en="Help us improve FocusBro by sharing your thoughts, suggestions, and bug reports." data-id="Bantu kami meningkatkan FocusBro dengan membagikan pemikiran, saran, dan laporan bug Anda.">Help us improve FocusBro by sharing your thoughts, suggestions, and bug reports.</p>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <div data-en="Thank you for your feedback! We'll review it and get back to you if needed." data-id="Terima kasih atas masukan Anda! Kami akan meninjau dan menghubungi Anda jika diperlukan.">Thank you for your feedback! We'll review it and get back to you if needed.</div>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <div data-en="There was an error sending your feedback. Please try again later." data-id="Terjadi kesalahan saat mengirim masukan Anda. Silakan coba lagi nanti.">There was an error sending your feedback. Please try again later.</div>
+            </div>
+
+            <!-- Feedback Types -->
+            <div class="feedback-types">
+                <div class="feedback-type" data-type="suggestion">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3 data-en="Suggestion" data-id="Saran">Suggestion</h3>
+                    <p data-en="Share ideas for new features or improvements" data-id="Bagikan ide untuk fitur baru atau perbaikan">Share ideas for new features or improvements</p>
+                </div>
+
+                <div class="feedback-type" data-type="bug">
+                    <i class="fas fa-bug"></i>
+                    <h3 data-en="Bug Report" data-id="Laporan Bug">Bug Report</h3>
+                    <p data-en="Report issues or problems you've encountered" data-id="Laporkan masalah atau kendala yang Anda alami">Report issues or problems you've encountered</p>
+                </div>
+
+                <div class="feedback-type" data-type="general">
+                    <i class="fas fa-comment"></i>
+                    <h3 data-en="General Feedback" data-id="Masukan Umum">General Feedback</h3>
+                    <p data-en="Share your overall experience and thoughts" data-id="Bagikan pengalaman dan pemikiran Anda secara keseluruhan">Share your overall experience and thoughts</p>
+                </div>
+
+                <div class="feedback-type" data-type="question">
+                    <i class="fas fa-question-circle"></i>
+                    <h3 data-en="Question" data-id="Pertanyaan">Question</h3>
+                    <p data-en="Ask questions about features or usage" data-id="Ajukan pertanyaan tentang fitur atau penggunaan">Ask questions about features or usage</p>
+                </div>
+            </div>
+
+            <!-- Feedback Form -->
+            <form class="feedback-form" id="feedbackForm">
+                <div class="form-group">
+                    <label class="form-label" data-en="Feedback Type *" data-id="Jenis Masukan *">Feedback Type *</label>
+                    <select class="form-select" id="feedbackType" required>
+                        <option value="" data-en="Select feedback type" data-id="Pilih jenis masukan">Select feedback type</option>
+                        <option value="suggestion" data-en="Feature Suggestion" data-id="Saran Fitur">Feature Suggestion</option>
+                        <option value="bug" data-en="Bug Report" data-id="Laporan Bug">Bug Report</option>
+                        <option value="general" data-en="General Feedback" data-id="Masukan Umum">General Feedback</option>
+                        <option value="question" data-en="Question" data-id="Pertanyaan">Question</option>
+                        <option value="documentation" data-en="Documentation" data-id="Dokumentasi">Documentation</option>
+                        <option value="performance" data-en="Performance Issue" data-id="Masalah Kinerja">Performance Issue</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Name (Optional)" data-id="Nama (Opsional)">Name (Optional)</label>
+                        <input type="text" class="form-input" id="userName" placeholder="Your name" data-en="Your name" data-id="Nama Anda">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-en="Email (Optional)" data-id="Email (Opsional)">Email (Optional)</label>
+                        <input type="email" class="form-input" id="userEmail" placeholder="your@email.com" data-en="your@email.com" data-id="email@anda.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Subject *" data-id="Subjek *">Subject *</label>
+                    <input type="text" class="form-input" id="feedbackSubject" placeholder="Brief description of your feedback" data-en="Brief description of your feedback" data-id="Deskripsi singkat masukan Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Message *" data-id="Pesan *">Message *</label>
+                    <textarea class="form-textarea" id="feedbackMessage" placeholder="Please provide detailed information about your feedback, suggestion, or issue..." data-en="Please provide detailed information about your feedback, suggestion, or issue..." data-id="Mohon berikan informasi detail tentang masukan, saran, atau masalah Anda..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="App Version" data-id="Versi Aplikasi">App Version</label>
+                    <input type="text" class="form-input" id="appVersion" value="1.0.0" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Device Information (Optional)" data-id="Informasi Perangkat (Opsional)">Device Information (Optional)</label>
+                    <input type="text" class="form-input" id="deviceInfo" placeholder="e.g., Samsung Galaxy S21, Android 12" data-en="e.g., Samsung Galaxy S21, Android 12" data-id="contoh: Samsung Galaxy S21, Android 12">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Overall Rating" data-id="Rating Keseluruhan">Overall Rating</label>
+                    <div class="rating-group">
+                        <span class="rating-star" data-rating="1">★</span>
+                        <span class="rating-star" data-rating="2">★</span>
+                        <span class="rating-star" data-rating="3">★</span>
+                        <span class="rating-star" data-rating="4">★</span>
+                        <span class="rating-star" data-rating="5">★</span>
+                        <span style="margin-left: 10px; color: var(--text-secondary);" id="ratingText" data-en="No rating" data-id="Tidak ada rating">No rating</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="allowContact">
+                        <label for="allowContact" data-en="Allow us to contact you for follow-up questions" data-id="Izinkan kami menghubungi Anda untuk pertanyaan lanjutan">Allow us to contact you for follow-up questions</label>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="includeAnalytics">
+                        <label for="includeAnalytics" data-en="Include anonymous usage data to help diagnose issues" data-id="Sertakan data penggunaan anonim untuk membantu mendiagnosis masalah">Include anonymous usage data to help diagnose issues</label>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="subscribeUpdates">
+                        <label for="subscribeUpdates" data-en="Subscribe to FocusBro updates and announcements" data-id="Berlangganan pembaruan dan pengumuman FocusBro">Subscribe to FocusBro updates and announcements</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-en="Send Feedback" data-id="Kirim Masukan">Send Feedback</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Feedback: Setting up language toggle...');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    console.log('🔄 Feedback: Switching to', lang);
+
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch language
+                    const elements = document.querySelectorAll('[data-en]');
+                    console.log('📝 Feedback: Found elements:', elements.length);
+
+                    elements.forEach(element => {
+                        const enText = element.getAttribute('data-en');
+                        const idText = element.getAttribute('data-id');
+
+                        if (lang === 'en' && enText) {
+                            element.textContent = enText;
+                        } else if (lang === 'id' && idText) {
+                            element.textContent = idText;
+                        }
+                    });
+
+                    // Update title and meta
+                    const titleElement = document.querySelector('title');
+                    if (titleElement) {
+                        const enTitle = titleElement.getAttribute('data-en');
+                        const idTitle = titleElement.getAttribute('data-id');
+
+                        if (lang === 'en' && enTitle) {
+                            titleElement.textContent = enTitle;
+                        } else if (lang === 'id' && idTitle) {
+                            titleElement.textContent = idTitle;
+                        }
+                    }
+
+                    localStorage.setItem('focusbro-lang', lang);
+                    document.documentElement.lang = lang;
+
+                    console.log('✅ Feedback: Language switched to', lang);
+                });
+            });
+
+            // Load saved language
+            const savedLang = localStorage.getItem('focusbro-lang') || 'en';
+            const savedBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+            if (savedBtn) {
+                savedBtn.click();
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedbackTypes = document.querySelectorAll('.feedback-type');
+            const feedbackTypeSelect = document.getElementById('feedbackType');
+            const ratingStars = document.querySelectorAll('.rating-star');
+            const ratingText = document.getElementById('ratingText');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            let selectedRating = 0;
+
+            // Feedback type selection
+            feedbackTypes.forEach(type => {
+                type.addEventListener('click', function() {
+                    feedbackTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const typeValue = this.getAttribute('data-type');
+                    feedbackTypeSelect.value = typeValue;
+                    
+                    // Update subject placeholder based on type
+                    const subjectInput = document.getElementById('feedbackSubject');
+                    const placeholders = {
+                        'suggestion': 'Suggest a new feature or improvement',
+                        'bug': 'Describe the bug or issue',
+                        'general': 'Share your thoughts about FocusBro',
+                        'question': 'Ask your question about FocusBro'
+                    };
+                    subjectInput.placeholder = placeholders[typeValue] || 'Brief description of your feedback';
+                });
+            });
+
+            // Rating system
+            ratingStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.getAttribute('data-rating'));
+                    updateRatingDisplay();
+                });
+                
+                star.addEventListener('mouseover', function() {
+                    const hoverRating = parseInt(this.getAttribute('data-rating'));
+                    highlightStars(hoverRating);
+                });
+            });
+
+            document.querySelector('.rating-group').addEventListener('mouseleave', function() {
+                highlightStars(selectedRating);
+            });
+
+            function highlightStars(rating) {
+                ratingStars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+
+            function updateRatingDisplay() {
+                highlightStars(selectedRating);
+                const ratingTexts = {
+                    0: 'No rating',
+                    1: 'Poor',
+                    2: 'Fair', 
+                    3: 'Good',
+                    4: 'Very Good',
+                    5: 'Excellent'
+                };
+                ratingText.textContent = ratingTexts[selectedRating];
+            }
+
+            // Form submission
+            feedbackForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                
+                // Hide previous messages
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // Simulate form submission (replace with actual API call)
+                setTimeout(() => {
+                    // Simulate success (90% chance)
+                    if (Math.random() > 0.1) {
+                        successMessage.style.display = 'flex';
+                        feedbackForm.reset();
+                        selectedRating = 0;
+                        updateRatingDisplay();
+                        feedbackTypes.forEach(t => t.classList.remove('active'));
+                        
+                        // Scroll to success message
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        errorMessage.style.display = 'flex';
+                        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Feedback';
+                }, 2000);
+            });
+
+            // Auto-detect device information
+            const deviceInfo = document.getElementById('deviceInfo');
+            const userAgent = navigator.userAgent;
+            let deviceString = '';
+            
+            if (/Android/i.test(userAgent)) {
+                const androidMatch = userAgent.match(/Android ([0-9\.]+)/);
+                deviceString = `Android ${androidMatch ? androidMatch[1] : 'Unknown'}`;
+            } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                const iosMatch = userAgent.match(/OS ([0-9_]+)/);
+                deviceString = `iOS ${iosMatch ? iosMatch[1].replace(/_/g, '.') : 'Unknown'}`;
+            }
+            
+            if (deviceString) {
+                deviceInfo.placeholder = `Auto-detected: ${deviceString}`;
+            }
+        });
+    </script>
+</body>
+</html>

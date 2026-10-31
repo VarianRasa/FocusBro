@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Guide - FocusBro Documentation</title>
+    <meta name="description" content="Troubleshooting guide for FocusBro app - solutions for common issues, performance optimization, and technical support.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Documentation specific styles */
+        .docs-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .docs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .docs-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .docs-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .docs-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .docs-content {
+            background: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .docs-section {
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .docs-section h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-3);
+        }
+        
+        .docs-section h2 i {
+            color: var(--primary-color);
+        }
+        
+        .issue-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-6);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .issue-card h3 {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .issue-card h3 i {
+            color: var(--accent-color);
+        }
+        
+        .issue-card h4 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin: var(--spacing-4) 0 var(--spacing-2) 0;
+            color: var(--text-primary);
+        }
+        
+        .issue-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .issue-card ol, .issue-card ul {
+            margin-left: var(--spacing-5);
+            color: var(--text-secondary);
+        }
+        
+        .issue-card ol li, .issue-card ul li {
+            margin-bottom: var(--spacing-2);
+            line-height: 1.6;
+        }
+        
+        .solution-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+        }
+        
+        .solution-box h5 {
+            color: #0ea5e9;
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .solution-box h5 i {
+            color: #0ea5e9;
+        }
+        
+        .warning-box {
+            background: #fef3cd;
+            border: 1px solid #fde047;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .warning-box i {
+            color: #f59e0b;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #f87171;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .error-box i {
+            color: #ef4444;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .quick-fixes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-4);
+            margin: var(--spacing-6) 0;
+        }
+        
+        .quick-fix-card {
+            background: white;
+            padding: var(--spacing-5);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+        }
+        
+        .quick-fix-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .quick-fix-card h4 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-3);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+        
+        .quick-fix-card i {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="../index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="../index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="../index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="../index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <main class="docs-main">
+        <div class="docs-container">
+            <a href="../index.html#docs" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Documentation" data-id="Kembali ke Dokumentasi">Back to Documentation</span>
+            </a>
+
+            <div class="docs-header">
+                <h1 data-en="Troubleshooting Guide" data-id="Panduan Pemecahan Masalah">Troubleshooting Guide</h1>
+                <p data-en="Solutions for common issues, performance optimization tips, and technical support for FocusBro." data-id="Solusi untuk masalah umum, tips optimasi kinerja, dan dukungan teknis untuk FocusBro.">Solutions for common issues, performance optimization tips, and technical support for FocusBro.</p>
+            </div>
+
+            <div class="docs-content">
+                <!-- Quick Fixes -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-bolt"></i> <span data-en="Quick Fixes" data-id="Perbaikan Cepat">Quick Fixes</span>
+                    </h2>
+
+                    <p data-en="Try these common solutions first before diving into specific issues:" data-id="Coba solusi umum ini terlebih dahulu sebelum menyelami masalah spesifik:">Try these common solutions first before diving into specific issues:</p>
+
+                    <div class="quick-fixes">
+                        <div class="quick-fix-card">
+                            <h4><i class="fas fa-redo"></i> <span data-en="Restart the App" data-id="Restart Aplikasi">Restart the App</span></h4>
+                            <p data-en="Close FocusBro completely and reopen it. This resolves many temporary issues." data-id="Tutup FocusBro sepenuhnya dan buka kembali. Ini menyelesaikan banyak masalah sementara.">Close FocusBro completely and reopen it. This resolves many temporary issues.</p>
+                        </div>
+
+                        <div class="quick-fix-card">
+                            <h4><i class="fas fa-mobile-alt"></i> <span data-en="Restart Your Device" data-id="Restart Perangkat Anda">Restart Your Device</span></h4>
+                            <p data-en="A device restart can resolve memory issues and system conflicts." data-id="Restart perangkat dapat menyelesaikan masalah memori dan konflik sistem.">A device restart can resolve memory issues and system conflicts.</p>
+                        </div>
+
+                        <div class="quick-fix-card">
+                            <h4><i class="fas fa-download"></i> <span data-en="Update the App" data-id="Perbarui Aplikasi">Update the App</span></h4>
+                            <p data-en="Check if a newer version is available and update to get the latest fixes." data-id="Periksa apakah versi yang lebih baru tersedia dan perbarui untuk mendapatkan perbaikan terbaru.">Check if a newer version is available and update to get the latest fixes.</p>
+                        </div>
+
+                        <div class="quick-fix-card">
+                            <h4><i class="fas fa-memory"></i> <span data-en="Free Up Storage" data-id="Bebaskan Penyimpanan">Free Up Storage</span></h4>
+                            <p data-en="Ensure you have at least 500MB of free storage space on your device." data-id="Pastikan Anda memiliki setidaknya 500MB ruang penyimpanan kosong di perangkat Anda.">Ensure you have at least 500MB of free storage space on your device.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Installation Issues -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-download"></i> Installation Issues
+                    </h2>
+                    
+                    <div class="issue-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Can't Install APK</h3>
+                        <p>If you're unable to install the FocusBro APK file:</p>
+                        
+                        <h4>Solution Steps:</h4>
+                        <ol>
+                            <li>Enable "Unknown Sources" in Settings > Security</li>
+                            <li>For Android 8+: Go to Settings > Apps > Special Access > Install Unknown Apps</li>
+                            <li>Select your file manager or browser and enable "Allow from this source"</li>
+                            <li>Try installing the APK again</li>
+                        </ol>
+                        
+                        <div class="warning-box">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Note:</strong> Some devices may show security warnings. This is normal for APK installations outside the Play Store.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3><i class="fas fa-times-circle"></i> Installation Failed</h3>
+                        <p>If installation fails with an error message:</p>
+                        
+                        <h4>Common Causes & Solutions:</h4>
+                        <ul>
+                            <li><strong>Insufficient Storage:</strong> Free up at least 200MB of space</li>
+                            <li><strong>Corrupted Download:</strong> Re-download the APK file</li>
+                            <li><strong>Incompatible Device:</strong> Check system requirements (Android 5.0+)</li>
+                            <li><strong>Previous Version:</strong> Uninstall old version first</li>
+                        </ul>
+                        
+                        <div class="solution-box">
+                            <h5><i class="fas fa-lightbulb"></i> Pro Tip</h5>
+                            <p>Download the APK directly to your device instead of transferring from a computer to avoid file corruption.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- App Performance -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-tachometer-alt"></i> Performance Issues
+                    </h2>
+                    
+                    <div class="issue-card">
+                        <h3><i class="fas fa-hourglass-half"></i> App Running Slowly</h3>
+                        <p>If FocusBro feels sluggish or unresponsive:</p>
+                        
+                        <h4>Optimization Steps:</h4>
+                        <ol>
+                            <li>Close other running apps to free up RAM</li>
+                            <li>Restart FocusBro to clear temporary data</li>
+                            <li>Check available storage (need 500MB+ free)</li>
+                            <li>Disable unnecessary animations in device settings</li>
+                            <li>Clear app cache (if available in device settings)</li>
+                        </ol>
+                        
+                        <h4>Device Requirements Check:</h4>
+                        <ul>
+                            <li><strong>RAM:</strong> 2GB minimum, 3GB+ recommended</li>
+                            <li><strong>Processor:</strong> Quad-core 1.4GHz or better</li>
+                            <li><strong>Android Version:</strong> 5.0 or newer</li>
+                        </ul>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3><i class="fas fa-battery-quarter"></i> High Battery Usage</h3>
+                        <p>If FocusBro is draining your battery quickly:</p>
+                        
+                        <h4>Battery Optimization:</h4>
+                        <ul>
+                            <li>Reduce screen brightness during focus sessions</li>
+                            <li>Disable background music if not needed</li>
+                            <li>Close the app when not in use</li>
+                            <li>Check if focus mode is properly ending sessions</li>
+                            <li>Update to the latest version for efficiency improvements</li>
+                        </ul>
+                        
+                        <div class="solution-box">
+                            <h5><i class="fas fa-lightbulb"></i> Battery Tip</h5>
+                            <p>Use the built-in focus mode settings to automatically reduce screen brightness and optimize battery usage during sessions.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Feature-Specific Issues -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-cogs"></i> Feature-Specific Issues
+                    </h2>
+                    
+                    <div class="issue-card">
+                        <h3><i class="fas fa-file-pdf"></i> PDF Files Won't Open</h3>
+                        <p>If you can't open PDF files in FocusBro:</p>
+                        
+                        <h4>Troubleshooting Steps:</h4>
+                        <ol>
+                            <li>Check if the PDF file is corrupted (try opening in another app)</li>
+                            <li>Ensure the file size is under 100MB</li>
+                            <li>Verify you have storage permission enabled</li>
+                            <li>Try copying the PDF to internal storage</li>
+                            <li>Restart the app and try again</li>
+                        </ol>
+                        
+                        <div class="error-box">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div>
+                                <strong>Large File Warning:</strong> PDFs over 50MB may cause performance issues on older devices.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3><i class="fas fa-music"></i> Background Music Not Working</h3>
+                        <p>If background music or ambient sounds aren't playing:</p>
+                        
+                        <h4>Audio Troubleshooting:</h4>
+                        <ul>
+                            <li>Check device volume and media volume settings</li>
+                            <li>Ensure audio permissions are granted</li>
+                            <li>Try different audio files or built-in sounds</li>
+                            <li>Check if other apps are using audio</li>
+                            <li>Restart the app and try again</li>
+                        </ul>
+                        
+                        <h4>File Format Support:</h4>
+                        <ul>
+                            <li><strong>Supported:</strong> MP3, AAC, OGG, WAV</li>
+                            <li><strong>Not Supported:</strong> FLAC, WMA, proprietary formats</li>
+                        </ul>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3><i class="fas fa-bell-slash"></i> Notifications Not Working</h3>
+                        <p>If you're not receiving focus session or task reminders:</p>
+                        
+                        <h4>Notification Setup:</h4>
+                        <ol>
+                            <li>Go to device Settings > Apps > FocusBro > Notifications</li>
+                            <li>Enable all notification categories</li>
+                            <li>Check Do Not Disturb settings</li>
+                            <li>Ensure FocusBro is not in battery optimization</li>
+                            <li>Test notifications within the app</li>
+                        </ol>
+                        
+                        <div class="warning-box">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Focus Mode:</strong> Notifications may be intentionally blocked during focus sessions. This is normal behavior.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Data Issues -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-database"></i> Data & Sync Issues
+                    </h2>
+                    
+                    <div class="issue-card">
+                        <h3><i class="fas fa-sync-alt"></i> Tasks Not Syncing Between Screens</h3>
+                        <p>If tasks aren't updating across different app screens:</p>
+                        
+                        <h4>Sync Solutions:</h4>
+                        <ol>
+                            <li>Force close and restart the app</li>
+                            <li>Check if you have sufficient storage space</li>
+                            <li>Ensure you're not running multiple instances</li>
+                            <li>Try creating a new task to test sync</li>
+                            <li>Restart your device if issues persist</li>
+                        </ol>
+                        
+                        <div class="solution-box">
+                            <h5><i class="fas fa-lightbulb"></i> Prevention Tip</h5>
+                            <p>Always wait for tasks to save completely before switching screens. Look for confirmation messages or loading indicators.</p>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Data Loss or Corruption</h3>
+                        <p>If you've lost tasks, notes, or other data:</p>
+                        
+                        <h4>Recovery Steps:</h4>
+                        <ol>
+                            <li>Check if you have any backup files</li>
+                            <li>Look for auto-backup in app settings</li>
+                            <li>Restart the app to trigger data recovery</li>
+                            <li>Check device storage for corruption issues</li>
+                        </ol>
+                        
+                        <h4>Prevention Measures:</h4>
+                        <ul>
+                            <li>Enable automatic backups in settings</li>
+                            <li>Manually export data regularly</li>
+                            <li>Keep sufficient free storage space</li>
+                            <li>Avoid force-closing the app during data operations</li>
+                        </ul>
+                        
+                        <div class="error-box">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div>
+                                <strong>Important:</strong> Always create backups before major app updates or device changes.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Getting Help -->
+                <section class="docs-section">
+                    <h2>
+                        <i class="fas fa-life-ring"></i> Getting Additional Help
+                    </h2>
+                    
+                    <div class="issue-card">
+                        <h3><i class="fas fa-question-circle"></i> When to Seek Help</h3>
+                        <p>Contact support if you experience:</p>
+                        <ul>
+                            <li>Persistent crashes or freezing</li>
+                            <li>Data loss that can't be recovered</li>
+                            <li>Features that completely stop working</li>
+                            <li>Security or privacy concerns</li>
+                            <li>Issues not covered in this guide</li>
+                        </ul>
+                        
+                        <h4>Before Contacting Support:</h4>
+                        <ol>
+                            <li>Try all relevant solutions in this guide</li>
+                            <li>Check the <a href="faq.html" style="color: var(--primary-color);">FAQ section</a></li>
+                            <li>Note your device model and Android version</li>
+                            <li>Record the exact error message (if any)</li>
+                            <li>List the steps that led to the issue</li>
+                        </ol>
+                        
+                        <h4>How to Get Help:</h4>
+                        <ul>
+                            <li>Use the feedback feature within the app</li>
+                            <li>Check our <a href="user-guide.html" style="color: var(--primary-color);">User Guide</a> for detailed instructions</li>
+                            <li>Review the <a href="faq.html" style="color: var(--primary-color);">FAQ</a> for common questions</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Troubleshooting: Setting up language toggle...');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    console.log('🔄 Troubleshooting: Switching to', lang);
+
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch language
+                    const elements = document.querySelectorAll('[data-en]');
+                    console.log('📝 Troubleshooting: Found elements:', elements.length);
+
+                    elements.forEach(element => {
+                        const enText = element.getAttribute('data-en');
+                        const idText = element.getAttribute('data-id');
+
+                        if (lang === 'en' && enText) {
+                            element.textContent = enText;
+                        } else if (lang === 'id' && idText) {
+                            element.textContent = idText;
+                        }
+                    });
+
+                    // Update title and meta
+                    const titleElement = document.querySelector('title');
+                    if (titleElement) {
+                        const enTitle = titleElement.getAttribute('data-en');
+                        const idTitle = titleElement.getAttribute('data-id');
+
+                        if (lang === 'en' && enTitle) {
+                            titleElement.textContent = enTitle;
+                        } else if (lang === 'id' && idTitle) {
+                            titleElement.textContent = idTitle;
+                        }
+                    }
+
+                    localStorage.setItem('focusbro-lang', lang);
+                    document.documentElement.lang = lang;
+
+                    console.log('✅ Troubleshooting: Language switched to', lang);
+                });
+            });
+
+            // Load saved language
+            const savedLang = localStorage.getItem('focusbro-lang') || 'en';
+            const savedBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+            if (savedBtn) {
+                savedBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

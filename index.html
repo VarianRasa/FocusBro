@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusBro - Productivity & Focus App</title>
+    <meta name="description" content="FocusBro is a comprehensive productivity app that helps you manage tasks, stay focused, and boost your productivity with advanced features.">
+    <meta name="keywords" content="productivity, focus, task management, pomodoro, notes, PDF reader">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/focusBroLogoName.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="FocusBro Docs">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css?v=2.0">
+
+    <!-- Force Modern Search Bar Styles -->
+    <style>
+        .search-input-wrapper {
+            display: flex !important;
+            align-items: center !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 2px solid transparent !important;
+            border-radius: 50px !important;
+            padding: 0 20px !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            min-width: 320px !important;
+            height: 48px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .search-input-wrapper:focus-within {
+            border-color: #6366f1 !important;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2) !important;
+            transform: translateY(-2px) !important;
+            background: white !important;
+        }
+
+        .search-input {
+            border: none !important;
+            outline: none !important;
+            padding: 0 !important;
+            font-size: 14px !important;
+            background: transparent !important;
+            color: #1f2937 !important;
+            flex: 1 !important;
+            font-family: inherit !important;
+            font-weight: 500 !important;
+        }
+
+        .search-icon {
+            color: #9ca3af !important;
+            margin-right: 12px !important;
+            font-size: 16px !important;
+            transition: all 0.15s ease !important;
+        }
+
+        .search-input-wrapper:focus-within .search-icon {
+            color: #6366f1 !important;
+            transform: scale(1.1) !important;
+        }
+
+        .search-clear {
+            background: #f9fafb !important;
+            border: none !important;
+            color: #9ca3af !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            border-radius: 50% !important;
+            transition: all 0.15s ease !important;
+            margin-left: 8px !important;
+            width: 24px !important;
+            height: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 10px !important;
+        }
+
+        .search-clear:hover {
+            background: #6366f1 !important;
+            color: white !important;
+            transform: scale(1.1) !important;
+        }
+
+        @media (max-width: 768px) {
+            .search-input-wrapper {
+                min-width: 240px !important;
+                height: 44px !important;
+                padding: 0 16px !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/focusBroLogo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container" id="searchContainer">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="site-search" placeholder="Search documentation..." class="search-input" autocomplete="off">
+                        <button class="search-clear" id="searchClear" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-en="Boost Your Productivity with FocusBro" data-id="Tingkatkan Produktivitas Anda dengan FocusBro">
+                    Boost Your Productivity with FocusBro
+                </h1>
+                <p class="hero-description" data-en="A comprehensive productivity app that combines task management, focus sessions, note-taking, and PDF reading in one powerful platform." data-id="Aplikasi produktivitas komprehensif yang menggabungkan manajemen tugas, sesi fokus, pencatatan, dan pembaca PDF dalam satu platform yang powerful.">
+                    A comprehensive productivity app that combines task management, focus sessions, note-taking, and PDF reading in one powerful platform.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary" data-en="Download Now" data-id="Unduh Sekarang">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <a href="#docs" class="btn btn-secondary" data-en="View Documentation" data-id="Lihat Dokumentasi">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/app-mockup.svg" alt="FocusBro App Screenshot">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Powerful Features" data-id="Fitur-Fitur Powerful">Powerful Features</h2>
+                <p data-en="Everything you need to stay productive and focused" data-id="Semua yang Anda butuhkan untuk tetap produktif dan fokus">Everything you need to stay productive and focused</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 data-en="Task Management" data-id="Manajemen Tugas">Task Management</h3>
+                    <p data-en="Organize your tasks with priorities, categories, and smart scheduling. Track progress with detailed analytics." data-id="Atur tugas Anda dengan prioritas, kategori, dan penjadwalan cerdas. Lacak kemajuan dengan analitik detail.">
+                        Organize your tasks with priorities, categories, and smart scheduling. Track progress with detailed analytics.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 data-en="Focus Sessions" data-id="Sesi Fokus">Focus Sessions</h3>
+                    <p data-en="Pomodoro timer with customizable durations, background music, and distraction blocking features." data-id="Timer Pomodoro dengan durasi yang dapat disesuaikan, musik latar, dan fitur pemblokiran gangguan.">
+                        Pomodoro timer with customizable durations, background music, and distraction blocking features.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <h3 data-en="Smart Notes" data-id="Catatan Cerdas">Smart Notes</h3>
+                    <p data-en="Take notes with tags, pinning, and advanced search. Export and share your notes easily." data-id="Buat catatan dengan tag, pin, dan pencarian lanjutan. Ekspor dan bagikan catatan Anda dengan mudah.">
+                        Take notes with tags, pinning, and advanced search. Export and share your notes easily.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3 data-en="PDF Reader" data-id="Pembaca PDF">PDF Reader</h3>
+                    <p data-en="Advanced PDF viewer with annotation tools, search functionality, and document management." data-id="Penampil PDF lanjutan dengan alat anotasi, fungsi pencarian, dan manajemen dokumen.">
+                        Advanced PDF viewer with annotation tools, search functionality, and document management.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-en="Analytics" data-id="Analitik">Analytics</h3>
+                    <p data-en="Track your productivity with detailed statistics, charts, and insights about your work patterns." data-id="Lacak produktivitas Anda dengan statistik detail, grafik, dan wawasan tentang pola kerja Anda.">
+                        Track your productivity with detailed statistics, charts, and insights about your work patterns.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 data-en="Background Music" data-id="Musik Latar">Background Music</h3>
+                    <p data-en="Built-in ambient sounds and custom music import to enhance your focus sessions." data-id="Suara ambient bawaan dan impor musik kustom untuk meningkatkan sesi fokus Anda.">
+                        Built-in ambient sounds and custom music import to enhance your focus sessions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="documentation">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Documentation" data-id="Dokumentasi">Documentation</h2>
+                <p data-en="Learn how to use FocusBro effectively" data-id="Pelajari cara menggunakan FocusBro secara efektif">Learn how to use FocusBro effectively</p>
+            </div>
+            
+            <div class="docs-grid">
+                <a href="docs/getting-started.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 data-en="Getting Started" data-id="Memulai">Getting Started</h3>
+                    <p data-en="Installation guide and first setup" data-id="Panduan instalasi dan pengaturan pertama">Installation guide and first setup</p>
+                </a>
+                
+                <a href="docs/features.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 data-en="Features Guide" data-id="Panduan Fitur">Features Guide</h3>
+                    <p data-en="Detailed explanation of all features" data-id="Penjelasan detail semua fitur">Detailed explanation of all features</p>
+                </a>
+                
+                <a href="docs/user-guide.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 data-en="User Guide" data-id="Panduan Pengguna">User Guide</h3>
+                    <p data-en="Step-by-step tutorials and tips" data-id="Tutorial langkah demi langkah dan tips">Step-by-step tutorials and tips</p>
+                </a>
+                
+                <a href="docs/faq.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 data-en="FAQ" data-id="FAQ">FAQ</h3>
+                    <p data-en="Frequently asked questions" data-id="Pertanyaan yang sering diajukan">Frequently asked questions</p>
+                </a>
+
+                <a href="docs/troubleshooting.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 data-en="Troubleshooting" data-id="Pemecahan Masalah">Troubleshooting</h3>
+                    <p data-en="Solutions for common issues" data-id="Solusi untuk masalah umum">Solutions for common issues</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="download-content">
+                <div class="download-info">
+                    <h2 data-en="Download FocusBro" data-id="Unduh FocusBro">Download FocusBro</h2>
+                    <p data-en="Get started with FocusBro today and boost your productivity!" data-id="Mulai dengan FocusBro hari ini dan tingkatkan produktivitas Anda!">
+                        Get started with FocusBro today and boost your productivity!
+                    </p>
+                    
+                    <div class="download-buttons">
+                        <a href="assets/downloads/focusbro-v1.0.0.apk" class="download-btn android" download>
+                            <i class="fab fa-android"></i>
+                            <div>
+                                <span data-en="Download for" data-id="Unduh untuk">Download for</span>
+                                <strong>Android</strong>
+                            </div>
+                        </a>
+                        
+                        <div class="download-btn ios disabled">
+                            <i class="fab fa-apple"></i>
+                            <div>
+                                <span data-en="Coming Soon" data-id="Segera Hadir">Coming Soon</span>
+                                <strong>iOS</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="download-info-text">
+                        <p><strong data-en="Version:" data-id="Versi:">Version:</strong> 1.0.0</p>
+                        <p><strong data-en="Size:" data-id="Ukuran:">Size:</strong> ~102 MB</p>
+                        <p><strong data-en="Requirements:" data-id="Persyaratan:">Requirements:</strong> Android 5.0+</p>
+                    </div>
+                    
+                    <div class="qr-code">
+                        <img src="assets/images/qr-code.svg" alt="QR Code for Download">
+                        <p data-en="Scan to download" data-id="Pindai untuk mengunduh">Scan to download</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/focusBroLogo.png" alt="FocusBro Logo">
+                        <span>FocusBro</span>
+                    </div>
+                    <p data-en="Boost your productivity with the ultimate focus and task management app." data-id="Tingkatkan produktivitas Anda dengan aplikasi fokus dan manajemen tugas terbaik.">
+                        Boost your productivity with the ultimate focus and task management app.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-en="Quick Links" data-id="Tautan Cepat">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-en="Home" data-id="Beranda">Home</a></li>
+                        <li><a href="#features" data-en="Features" data-id="Fitur">Features</a></li>
+                        <li><a href="#docs" data-en="Documentation" data-id="Dokumentasi">Documentation</a></li>
+                        <li><a href="#download" data-en="Download" data-id="Unduh">Download</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-en="Resources" data-id="Sumber Daya">Resources</h4>
+                    <ul>
+                        <li><a href="gallery.html" data-en="Screenshots" data-id="Screenshot">Screenshots</a></li>
+                        <li><a href="changelog.html" data-en="Changelog" data-id="Riwayat Perubahan">Changelog</a></li>
+                        <li><a href="docs/api.html" data-en="API Docs" data-id="Dokumentasi API">API Docs</a></li>
+                        <li><a href="analytics.html" data-en="Analytics" data-id="Analitik">Analytics</a></li>
+                        <li><a href="feedback.html" data-en="Feedback" data-id="Umpan Balik">Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Legal" data-id="Legal">Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html" data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-en="Terms of Service" data-id="Syarat Layanan">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 FocusBro. <span data-en="All rights reserved." data-id="Semua hak dilindungi.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay"></div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js?v=2.0"></script>
+    <script src="assets/js/language-toggle.js?v=1.0"></script>
+
+
+    <!-- Debug Search Script -->
+    <script>
+        // Force search initialization
+        window.addEventListener('load', function() {
+            console.log('Window loaded, checking search...');
+
+            const searchInput = document.getElementById('site-search');
+            const searchSuggestions = document.getElementById('searchSuggestions');
+            const searchContainer = document.getElementById('searchContainer');
+
+            console.log('Elements check:', {
+                searchInput: searchInput ? 'Found' : 'Not found',
+                searchSuggestions: searchSuggestions ? 'Found' : 'Not found',
+                searchContainer: searchContainer ? 'Found' : 'Not found'
+            });
+
+            if (searchInput) {
+                console.log('Adding test event listener...');
+                searchInput.addEventListener('input', function(e) {
+                    console.log('Search input detected:', e.target.value);
+                });
+            }
+
+            // Force modern styling
+            if (searchInput && searchInput.parentElement) {
+                const wrapper = searchInput.parentElement;
+                wrapper.style.cssText = `
+                    display: flex !important;
+                    align-items: center !important;
+                    background: rgba(255, 255, 255, 0.95) !important;
+                    backdrop-filter: blur(10px) !important;
+                    border: 2px solid transparent !important;
+                    border-radius: 50px !important;
+                    padding: 0 20px !important;
+                    transition: all 0.3s ease !important;
+                    position: relative !important;
+                    min-width: 320px !important;
+                    height: 48px !important;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+                `;
+                console.log('Applied modern styling to search wrapper');
+            }
+        });
+    </script>
+</body>
+</html>

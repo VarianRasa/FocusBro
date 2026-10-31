@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - FocusBro Documentation</title>
+    <meta name="description" content="You're currently offline. FocusBro documentation is available when you reconnect.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-dark: #111827;
+            --border-color: #e5e7eb;
+            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --spacing-12: 48px;
+            --spacing-16: 64px;
+            --font-size-sm: 14px;
+            --font-size-base: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-2xl: 24px;
+            --font-size-3xl: 30px;
+            --font-size-4xl: 36px;
+            --transition-fast: all 0.15s ease;
+            --transition-normal: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-4);
+        }
+
+        .offline-container {
+            max-width: 500px;
+            text-align: center;
+            background: white;
+            padding: var(--spacing-16);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-large);
+            border: 1px solid var(--border-color);
+        }
+
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offline-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .offline-icon i {
+            font-size: var(--font-size-4xl);
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .offline-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+
+        .offline-description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-8);
+            line-height: 1.7;
+        }
+
+        .offline-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-6);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: var(--font-size-base);
+            transition: var(--transition-normal);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            background: #5856eb;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+            border-color: var(--primary-color);
+        }
+
+        .offline-features {
+            background: var(--bg-secondary);
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            margin-top: var(--spacing-8);
+        }
+
+        .offline-features h3 {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+
+        .offline-features ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .offline-features li {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+            color: var(--text-secondary);
+        }
+
+        .offline-features li i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-6);
+            padding: var(--spacing-3);
+            background: #fef3cd;
+            border: 1px solid #fde047;
+            border-radius: var(--radius-md);
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .connection-status.online {
+            background: #d1fae5;
+            border-color: #34d399;
+            color: #065f46;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f59e0b;
+        }
+
+        .status-indicator.online {
+            background: #10b981;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .offline-container {
+                padding: var(--spacing-8);
+                margin: var(--spacing-4);
+            }
+            
+            .offline-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .offline-title {
+                font-size: var(--font-size-2xl);
+            }
+            
+            .offline-description {
+                font-size: var(--font-size-base);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            <i>📡</i>
+        </div>
+        
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-description">
+            No internet connection detected. Don't worry, some content is still available offline!
+        </p>
+        
+        <div class="offline-actions">
+            <button class="btn btn-primary" onclick="checkConnection()">
+                <i>🔄</i> Check Connection
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <i>🏠</i> Go to Homepage
+            </a>
+        </div>
+        
+        <div class="connection-status" id="connectionStatus">
+            <div class="status-indicator" id="statusIndicator"></div>
+            <span id="statusText">Offline - No internet connection</span>
+        </div>
+        
+        <div class="offline-features">
+            <h3>Available Offline:</h3>
+            <ul>
+                <li><i>📋</i> Getting Started Guide</li>
+                <li><i>📖</i> User Guide & Tutorials</li>
+                <li><i>❓</i> FAQ & Troubleshooting</li>
+                <li><i>🔧</i> Features Documentation</li>
+                <li><i>📄</i> Privacy Policy & Terms</li>
+                <li><i>🖼️</i> Screenshots Gallery</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function checkConnection() {
+            if (navigator.onLine) {
+                updateConnectionStatus(true);
+                // Try to reload the page
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                updateConnectionStatus(false);
+                // Show feedback
+                showFeedback('Still offline. Please check your internet connection.');
+            }
+        }
+
+        // Update connection status display
+        function updateConnectionStatus(isOnline) {
+            const statusElement = document.getElementById('connectionStatus');
+            const indicatorElement = document.getElementById('statusIndicator');
+            const textElement = document.getElementById('statusText');
+            
+            if (isOnline) {
+                statusElement.classList.add('online');
+                indicatorElement.classList.add('online');
+                textElement.textContent = 'Online - Connection restored!';
+            } else {
+                statusElement.classList.remove('online');
+                indicatorElement.classList.remove('online');
+                textElement.textContent = 'Offline - No internet connection';
+            }
+        }
+
+        // Show feedback message
+        function showFeedback(message) {
+            const feedback = document.createElement('div');
+            feedback.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #374151;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        // Listen for connection changes
+        window.addEventListener('online', () => {
+            updateConnectionStatus(true);
+            showFeedback('Connection restored! Reloading...');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        });
+
+        window.addEventListener('offline', () => {
+            updateConnectionStatus(false);
+            showFeedback('Connection lost. You can still browse cached content.');
+        });
+
+        // Initial connection check
+        document.addEventListener('DOMContentLoaded', () => {
+            updateConnectionStatus(navigator.onLine);
+        });
+
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

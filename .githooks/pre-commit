@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+repo_root="$(git rev-parse --show-toplevel)"
+staged_dart_files="$(git diff --cached --name-only --diff-filter=ACMR -- '*.dart')"
+
+if [ -z "$staged_dart_files" ]; then
+  echo "No staged Dart files; formatter check skipped."
+  exit 0
+fi
+
+printf '%s\n' "$staged_dart_files" | while IFS= read -r file; do
+  [ -z "$file" ] && continue
+  dart format --output=none --set-exit-if-changed "$repo_root/$file"
+done

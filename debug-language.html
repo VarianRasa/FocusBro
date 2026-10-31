@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Language Toggle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .debug-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .language-switcher {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .lang-btn {
+            background: #e5e7eb;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .lang-btn:hover {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .debug-info {
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .test-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        
+        .test-value {
+            color: #6b7280;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔧 Language Toggle Debug</h1>
+        
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="en" onclick="debugSwitchLanguage('en')">EN</button>
+            <button class="lang-btn" data-lang="id" onclick="debugSwitchLanguage('id')">ID</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test Elements</h2>
+            
+            <div class="test-item">
+                <div class="test-label">Simple Text Test:</div>
+                <p data-en="This is English text" data-id="Ini adalah teks Indonesia">This is English text</p>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-label">Heading Test:</div>
+                <h3 data-en="English Heading" data-id="Judul Indonesia">English Heading</h3>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-label">Navigation Test:</div>
+                <nav>
+                    <a href="#" data-en="Home" data-id="Beranda">Home</a> |
+                    <a href="#" data-en="Features" data-id="Fitur">Features</a> |
+                    <a href="#" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                </nav>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-label">List Test:</div>
+                <ul>
+                    <li data-en="First item" data-id="Item pertama">First item</li>
+                    <li data-en="Second item" data-id="Item kedua">Second item</li>
+                    <li data-en="Third item" data-id="Item ketiga">Third item</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Debug Information</h2>
+            <div id="debug-output" class="debug-info">Initializing debug...</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Status</h2>
+            <div id="status-output" class="status">Ready for testing</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Manual Test</h2>
+            <button onclick="manualTest()">Run Manual Test</button>
+            <button onclick="clearDebug()">Clear Debug</button>
+            <button onclick="testElementCount()">Count Elements</button>
+        </div>
+    </div>
+
+    <script>
+        let debugLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugLog.push(`[${timestamp}] ${message}`);
+            updateDebugOutput();
+        }
+        
+        function updateDebugOutput() {
+            document.getElementById('debug-output').textContent = debugLog.join('\n');
+        }
+        
+        function updateStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status-output');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function debugSwitchLanguage(lang) {
+            log(`🔄 Switching to language: ${lang}`);
+            
+            // Update active button
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Find all elements with data-en
+            const elements = document.querySelectorAll('[data-en]');
+            log(`📝 Found ${elements.length} elements with data-en attribute`);
+            
+            let updatedCount = 0;
+            elements.forEach((element, index) => {
+                const enText = element.getAttribute('data-en');
+                const idText = element.getAttribute('data-id');
+                
+                log(`Element ${index + 1}: EN="${enText}" ID="${idText}"`);
+                
+                if (lang === 'en' && enText) {
+                    element.textContent = enText;
+                    updatedCount++;
+                    log(`✅ Updated to EN: "${enText}"`);
+                } else if (lang === 'id' && idText) {
+                    element.textContent = idText;
+                    updatedCount++;
+                    log(`✅ Updated to ID: "${idText}"`);
+                } else {
+                    log(`❌ No translation available for element ${index + 1}`);
+                }
+            });
+            
+            log(`🎯 Updated ${updatedCount} out of ${elements.length} elements`);
+            updateStatus(`Language switched to ${lang.toUpperCase()}. Updated ${updatedCount} elements.`);
+            
+            // Save preference
+            localStorage.setItem('debug-lang', lang);
+            log(`💾 Saved language preference: ${lang}`);
+        }
+        
+        function manualTest() {
+            log('🧪 Running manual test...');
+            
+            // Test switching to Indonesian
+            log('Testing switch to Indonesian...');
+            debugSwitchLanguage('id');
+            
+            setTimeout(() => {
+                log('Testing switch back to English...');
+                debugSwitchLanguage('en');
+                
+                setTimeout(() => {
+                    log('Testing switch to Indonesian again...');
+                    debugSwitchLanguage('id');
+                    updateStatus('Manual test completed!');
+                }, 2000);
+            }, 2000);
+        }
+        
+        function testElementCount() {
+            const elements = document.querySelectorAll('[data-en]');
+            const elementsWithId = document.querySelectorAll('[data-id]');
+            
+            log(`📊 Element count analysis:`);
+            log(`- Elements with data-en: ${elements.length}`);
+            log(`- Elements with data-id: ${elementsWithId.length}`);
+            
+            elements.forEach((el, index) => {
+                const hasId = el.hasAttribute('data-id');
+                log(`Element ${index + 1}: ${hasId ? '✅' : '❌'} Has Indonesian translation`);
+            });
+            
+            updateStatus(`Found ${elements.length} translatable elements`);
+        }
+        
+        function clearDebug() {
+            debugLog = [];
+            updateDebugOutput();
+            updateStatus('Debug log cleared');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Debug page loaded');
+            log('🔍 Checking for saved language preference...');
+            
+            const savedLang = localStorage.getItem('debug-lang') || 'en';
+            log(`💾 Found saved language: ${savedLang}`);
+            
+            debugSwitchLanguage(savedLang);
+            
+            updateStatus('Debug page ready for testing');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "187168838711",
+    "project_id": "focusbro-35cd2",
+    "storage_bucket": "focusbro-35cd2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187168838711:android:276d188c4e9270df689bb2",
+        "android_client_info": {
+          "package_name": "com.example.focusbro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbgOn8XEhvhxKYnm21sYiViaxpAK1UBAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

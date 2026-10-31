@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Placeholder Images</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .placeholder { margin: 20px 0; padding: 20px; border: 2px dashed #ccc; text-align: center; }
+        canvas { border: 1px solid #ddd; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>FocusBro Website - Placeholder Images</h1>
+    
+    <div class="placeholder">
+        <h3>App Mockup (600x400)</h3>
+        <canvas id="mockup" width="600" height="400"></canvas>
+        <br>
+        <button onclick="downloadCanvas('mockup', 'app-mockup.png')">Download</button>
+    </div>
+    
+    <div class="placeholder">
+        <h3>QR Code (200x200)</h3>
+        <canvas id="qrcode" width="200" height="200"></canvas>
+        <br>
+        <button onclick="downloadCanvas('qrcode', 'qr-code.png')">Download</button>
+    </div>
+
+    <script>
+        // Create App Mockup Placeholder
+        function createMockup() {
+            const canvas = document.getElementById('mockup');
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, 600, 400);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 600, 400);
+            
+            // Phone outline
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(200, 50, 200, 300);
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(210, 70, 180, 260);
+            
+            // Screen content
+            ctx.fillStyle = '#6366f1';
+            ctx.fillRect(220, 80, 160, 40);
+            
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(220, 130, 160, 30);
+            ctx.fillRect(220, 170, 160, 30);
+            ctx.fillRect(220, 210, 160, 30);
+            
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillRect(220, 260, 160, 50);
+            
+            // Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('FocusBro', 300, 30);
+            
+            ctx.font = '16px Arial';
+            ctx.fillText('Productivity App', 300, 380);
+        }
+        
+        // Create QR Code Placeholder
+        function createQRCode() {
+            const canvas = document.getElementById('qrcode');
+            const ctx = canvas.getContext('2d');
+            
+            // White background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 200, 200);
+            
+            // QR Code pattern simulation
+            ctx.fillStyle = '#000000';
+            const size = 8;
+            
+            // Create a simple QR-like pattern
+            for (let x = 0; x < 200; x += size) {
+                for (let y = 0; y < 200; y += size) {
+                    if (Math.random() > 0.5) {
+                        ctx.fillRect(x, y, size, size);
+                    }
+                }
+            }
+            
+            // Corner squares (typical QR code markers)
+            ctx.fillStyle = '#000000';
+            // Top-left
+            ctx.fillRect(0, 0, 40, 40);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(8, 8, 24, 24);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(16, 16, 8, 8);
+            
+            // Top-right
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(160, 0, 40, 40);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(168, 8, 24, 24);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(176, 16, 8, 8);
+            
+            // Bottom-left
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 160, 40, 40);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(8, 168, 24, 24);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(16, 176, 8, 8);
+        }
+        
+        // Download canvas as image
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Initialize
+        createMockup();
+        createQRCode();
+    </script>
+</body>
+</html>

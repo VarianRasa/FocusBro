@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Analytics Dashboard - FocusBro Documentation" data-id="Dashboard Analitik - Dokumentasi FocusBro">Analytics Dashboard - FocusBro Documentation</title>
+    <meta name="description" content="Website analytics and usage statistics for FocusBro documentation site." data-en="Website analytics and usage statistics for FocusBro documentation site." data-id="Analitik website dan statistik penggunaan untuk situs dokumentasi FocusBro.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .analytics-main {
+            padding-top: 70px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        
+        .analytics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+        
+        .analytics-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-8);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .analytics-header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .analytics-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .stat-card {
+            background: white;
+            padding: var(--spacing-6);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition-normal);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-4);
+        }
+        
+        .stat-icon i {
+            font-size: var(--font-size-2xl);
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .stat-change {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--radius-md);
+        }
+        
+        .stat-change.positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .stat-change.negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .chart-section {
+            background: white;
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-8);
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .chart-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .chart-filters {
+            display: flex;
+            gap: var(--spacing-2);
+        }
+        
+        .filter-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-2) var(--spacing-3);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-size: var(--font-size-sm);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .top-pages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-6);
+        }
+        
+        .page-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-4);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .page-info {
+            flex: 1;
+        }
+        
+        .page-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .page-url {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+        }
+        
+        .page-stats {
+            text-align: right;
+        }
+        
+        .page-views {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .page-percentage {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--spacing-6);
+            transition: var(--transition-fast);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .privacy-notice {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-4);
+            margin-bottom: var(--spacing-8);
+            display: flex;
+            gap: var(--spacing-3);
+        }
+        
+        .privacy-notice i {
+            color: #0ea5e9;
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .privacy-notice div {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .privacy-notice strong {
+            color: #0ea5e9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/focusbro-logo.png" alt="FocusBro Logo">
+                <span>FocusBro</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link" data-en="Home" data-id="Beranda">Home</a>
+                <a href="index.html#features" class="nav-link" data-en="Features" data-id="Fitur">Features</a>
+                <a href="index.html#docs" class="nav-link" data-en="Documentation" data-id="Dokumentasi">Documentation</a>
+                <a href="index.html#download" class="nav-link" data-en="Download" data-id="Unduh">Download</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="site-search" placeholder="Search documentation..." class="search-input">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="id">ID</button>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Analytics Content -->
+    <main class="analytics-main">
+        <div class="analytics-container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> <span data-en="Back to Home" data-id="Kembali ke Beranda">Back to Home</span>
+            </a>
+
+            <div class="analytics-header">
+                <h1 data-en="Analytics Dashboard" data-id="Dashboard Analitik">Analytics Dashboard</h1>
+                <p data-en="Website usage statistics and insights for FocusBro documentation." data-id="Statistik penggunaan website dan wawasan untuk dokumentasi FocusBro.">Website usage statistics and insights for FocusBro documentation.</p>
+            </div>
+
+            <div class="privacy-notice">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <strong data-en="Privacy First:" data-id="Privasi Utama:">Privacy First:</strong> <span data-en="All analytics data is anonymized and aggregated. No personal information is collected or stored. Data is used solely to improve the documentation experience." data-id="Semua data analitik dianonimkan dan diagregasi. Tidak ada informasi pribadi yang dikumpulkan atau disimpan. Data digunakan semata-mata untuk meningkatkan pengalaman dokumentasi.">All analytics data is anonymized and aggregated. No personal information is collected or stored. Data is used solely to improve the documentation experience.</span>
+                </div>
+            </div>
+
+            <!-- Key Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-number" id="totalViews">12,847</div>
+                    <div class="stat-label" data-en="Total Page Views" data-id="Total Tampilan Halaman">Total Page Views</div>
+                    <div class="stat-change positive" data-en="+23% this month" data-id="+23% bulan ini">+23% this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" id="uniqueVisitors">3,421</div>
+                    <div class="stat-label" data-en="Unique Visitors" data-id="Pengunjung Unik">Unique Visitors</div>
+                    <div class="stat-change positive" data-en="+18% this month" data-id="+18% bulan ini">+18% this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-number" id="downloads">1,256</div>
+                    <div class="stat-label" data-en="APK Downloads" data-id="Unduhan APK">APK Downloads</div>
+                    <div class="stat-change positive" data-en="+45% this month" data-id="+45% bulan ini">+45% this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number" id="avgTime">4:32</div>
+                    <div class="stat-label" data-en="Avg. Session Time" data-id="Waktu Sesi Rata-rata">Avg. Session Time</div>
+                    <div class="stat-change positive" data-en="+12% this month" data-id="+12% bulan ini">+12% this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="stat-number" id="searches">892</div>
+                    <div class="stat-label" data-en="Search Queries" data-id="Kueri Pencarian">Search Queries</div>
+                    <div class="stat-change positive" data-en="+67% this month" data-id="+67% bulan ini">+67% this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="stat-number" id="mobileUsers">68%</div>
+                    <div class="stat-label" data-en="Mobile Users" data-id="Pengguna Mobile">Mobile Users</div>
+                    <div class="stat-change positive" data-en="+5% this month" data-id="+5% bulan ini">+5% this month</div>
+                </div>
+            </div>
+
+            <!-- Page Views Chart -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title" data-en="Page Views Over Time" data-id="Tampilan Halaman Seiring Waktu">Page Views Over Time</h2>
+                    <div class="chart-filters">
+                        <button class="filter-btn active" data-period="7d" data-en="7 Days" data-id="7 Hari">7 Days</button>
+                        <button class="filter-btn" data-period="30d" data-en="30 Days" data-id="30 Hari">30 Days</button>
+                        <button class="filter-btn" data-period="90d" data-en="90 Days" data-id="90 Hari">90 Days</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pageViewsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top Pages -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title" data-en="Most Popular Pages" data-id="Halaman Paling Populer">Most Popular Pages</h2>
+                </div>
+                <div class="top-pages">
+                    <div>
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Homepage" data-id="Beranda">Homepage</div>
+                                <div class="page-url">/index.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">4,523</div>
+                                <div class="page-percentage">35.2%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Getting Started" data-id="Memulai">Getting Started</div>
+                                <div class="page-url">/docs/getting-started.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">2,891</div>
+                                <div class="page-percentage">22.5%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="User Guide" data-id="Panduan Pengguna">User Guide</div>
+                                <div class="page-url">/docs/user-guide.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">1,967</div>
+                                <div class="page-percentage">15.3%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="FAQ" data-id="FAQ">FAQ</div>
+                                <div class="page-url">/docs/faq.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">1,234</div>
+                                <div class="page-percentage">9.6%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Features Guide" data-id="Panduan Fitur">Features Guide</div>
+                                <div class="page-url">/docs/features.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">987</div>
+                                <div class="page-percentage">7.7%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Troubleshooting" data-id="Pemecahan Masalah">Troubleshooting</div>
+                                <div class="page-url">/docs/troubleshooting.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">654</div>
+                                <div class="page-percentage">5.1%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Screenshots Gallery" data-id="Galeri Screenshot">Screenshots Gallery</div>
+                                <div class="page-url">/gallery.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">432</div>
+                                <div class="page-percentage">3.4%</div>
+                            </div>
+                        </div>
+
+                        <div class="page-item">
+                            <div class="page-info">
+                                <div class="page-title" data-en="Changelog" data-id="Log Perubahan">Changelog</div>
+                                <div class="page-url">/changelog.html</div>
+                            </div>
+                            <div class="page-stats">
+                                <div class="page-views">159</div>
+                                <div class="page-percentage">1.2%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Analytics -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title" data-en="Top Search Queries" data-id="Kueri Pencarian Teratas">Top Search Queries</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="searchChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/language-toggle.js?v=1.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Analytics: Setting up language toggle...');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    console.log('🔄 Analytics: Switching to', lang);
+
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch language
+                    const elements = document.querySelectorAll('[data-en]');
+                    console.log('📝 Analytics: Found elements:', elements.length);
+
+                    elements.forEach(element => {
+                        const enText = element.getAttribute('data-en');
+                        const idText = element.getAttribute('data-id');
+
+                        if (lang === 'en' && enText) {
+                            element.textContent = enText;
+                        } else if (lang === 'id' && idText) {
+                            element.textContent = idText;
+                        }
+                    });
+
+                    // Update title and meta
+                    const titleElement = document.querySelector('title');
+                    if (titleElement) {
+                        const enTitle = titleElement.getAttribute('data-en');
+                        const idTitle = titleElement.getAttribute('data-id');
+
+                        if (lang === 'en' && enTitle) {
+                            titleElement.textContent = enTitle;
+                        } else if (lang === 'id' && idTitle) {
+                            titleElement.textContent = idTitle;
+                        }
+                    }
+
+                    localStorage.setItem('focusbro-lang', lang);
+                    document.documentElement.lang = lang;
+
+                    console.log('✅ Analytics: Language switched to', lang);
+                });
+            });
+
+            // Load saved language
+            const savedLang = localStorage.getItem('focusbro-lang') || 'en';
+            const savedBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+            if (savedBtn) {
+                savedBtn.click();
+            }
+        });
+    </script>
+    <script>
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            initializeFilters();
+            updateStats();
+        });
+
+        // Initialize Chart.js charts
+        function initializeCharts() {
+            // Page Views Chart
+            const pageViewsCtx = document.getElementById('pageViewsChart').getContext('2d');
+            new Chart(pageViewsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Dec 1', 'Dec 2', 'Dec 3', 'Dec 4', 'Dec 5', 'Dec 6', 'Dec 7'],
+                    datasets: [{
+                        label: 'Page Views',
+                        data: [1200, 1350, 1100, 1450, 1600, 1800, 1950],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Search Chart
+            const searchCtx = document.getElementById('searchChart').getContext('2d');
+            new Chart(searchCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['task', 'focus', 'install', 'help', 'pdf', 'music', 'other'],
+                    datasets: [{
+                        data: [156, 134, 98, 87, 76, 54, 287],
+                        backgroundColor: [
+                            '#6366f1',
+                            '#8b5cf6',
+                            '#06b6d4',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#6b7280'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize filter buttons
+        function initializeFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update chart data based on selected period
+                    const period = this.getAttribute('data-period');
+                    updateChartData(period);
+                });
+            });
+        }
+
+        // Update chart data based on selected period
+        function updateChartData(period) {
+            // This would typically fetch new data from an API
+            console.log('Updating chart data for period:', period);
+        }
+
+        // Update statistics with animation
+        function updateStats() {
+            const stats = [
+                { id: 'totalViews', target: 12847 },
+                { id: 'uniqueVisitors', target: 3421 },
+                { id: 'downloads', target: 1256 },
+                { id: 'searches', target: 892 }
+            ];
+
+            stats.forEach(stat => {
+                animateNumber(stat.id, stat.target);
+            });
+        }
+
+        // Animate number counting
+        function animateNumber(elementId, target) {
+            const element = document.getElementById(elementId);
+            const duration = 2000;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+        }
+    </script>
+</body>
+</html>

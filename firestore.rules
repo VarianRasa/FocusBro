@@ -1,0 +1,78 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function supportedCollection(collection) {
+      return collection in [
+        'tasks',
+        'focus_sessions',
+        'timer_presets',
+        'goals',
+        'settings',
+        'notes',
+        'music_library',
+        'playlists',
+        'pdf_reading_state'
+      ];
+    }
+
+    function validRecord(recordId) {
+      return request.resource.data.keys().hasAll([
+          'entityId',
+          'schemaVersion',
+          'updatedAt',
+          'deletedAt',
+          'payload'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'entityId',
+          'schemaVersion',
+          'updatedAt',
+          'deletedAt',
+          'payload'
+        ])
+        && request.resource.data.entityId is string
+        && request.resource.data.entityId == recordId
+        && request.resource.data.schemaVersion is int
+        && request.resource.data.schemaVersion >= 1
+        && request.resource.data.updatedAt is timestamp
+        && (
+          request.resource.data.deletedAt == null
+          || request.resource.data.deletedAt is timestamp
+        )
+        && (
+          (
+            request.resource.data.deletedAt == null
+            && request.resource.data.payload is map
+          )
+          || (
+            request.resource.data.deletedAt is timestamp
+            && request.resource.data.payload == null
+          )
+        );
+    }
+
+    match /users/{uid} {
+      match /sync/v1/{collection}/{recordId} {
+        allow read: if signedInAs(uid) && supportedCollection(collection);
+        allow create, update: if signedInAs(uid)
+          && supportedCollection(collection)
+          && validRecord(recordId);
+        // Deletions remain as tombstones until account deletion policy is approved.
+        allow delete: if false;
+      }
+
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
